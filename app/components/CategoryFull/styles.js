@@ -1,0 +1,25 @@
+import { StyleSheet } from "react-native";
+import { BaseColor } from "@config";
+import * as Utils from "@utils";
+
+export default StyleSheet.create({
+  contain: {
+    flexDirection: "row",
+    height: Utils.scaleWithPixel(115),
+    borderRadius: 8,
+    backgroundColor:"#111"
+  },
+  contentIcon: {
+    position: "absolute",
+    padding: 10,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  iconCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
