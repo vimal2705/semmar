@@ -18,12 +18,7 @@ export const getHome = async ({ params }) => {
   // }
   const recent = await Axios.get('http://semmsar.com/wp-json/wp/v2/rtcl_listing');
   const recent_post = recent.data
-  const element = []
-  for (let i = 0; i < recent_post.length; i++) {
- element.push(recent_post[i]._links['wp:attachment'][0].href);
-    
-  }
-  console.log(element);
+
   // recent_post.forEach(element => {
     
   // });

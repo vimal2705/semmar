@@ -53,6 +53,8 @@ export default function ProductDetail({ navigation, route }) {
   const heightImageBanner = Utils.scaleWithPixel(250, 1);
 
   const [productImage, setproductImage] = useState('')
+  const [gallary, setgallary] = useState()
+  const [relatedproduct, setrelatedproduct] = useState([])
 
   useEffect(() => {
     loadData();
@@ -69,16 +71,31 @@ export default function ProductDetail({ navigation, route }) {
         setProduct(item);
         setLike(isFavorite(item));
         image(item)
+        fetch(item)
         
         
       })
     );
   };
 
+  const fetch = async (item) => {
+    const array = await axios.get(item.related);
+    const fetcarray = array.data
+    console.log(item.related)
+console.log(fetcarray[2].id)
+    setrelatedproduct(fetcarray)
+
+  }
 const  image = async (item)  => {
   const image = await axios.get(item.image);
         const imgarray = image.data
+        const array = []
       setproductImage(imgarray[0].media_details.sizes.medium_large.source_url)
+      for (let i = 0; i < imgarray.length; i++) {
+        console.log('asssa',imgarray[i].media_details.sizes.medium_large.source_url);
+        array.push(imgarray[i].media_details.sizes.medium_large.source_url)
+      }
+      setgallary(array)
 }
   /**
    * check wishlist state
@@ -180,10 +197,7 @@ const  image = async (item)  => {
   /**
    * collapse open time
    */
-  const onCollapse = () => {
-    Utils.enableExperimental();
-    setCollapseHour(!collapseHour);
-  };
+
 
   /**
    * render wishlist status
@@ -405,7 +419,9 @@ const  image = async (item)  => {
             </View>
             <Tag status>{product?.status}</Tag>
           </View>
+         
           <TouchableOpacity
+
             style={styles.line}
             onPress={() => {
               const location = `${product?.location?.latitude},${product?.location?.longitude}`;
@@ -494,50 +510,8 @@ const  image = async (item)  => {
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.line} onPress={onCollapse}>
-            <View
-              style={[styles.contentIcon, { backgroundColor: colors.border }]}
-            >
-              <Icon name="clock" size={16} color={BaseColor.whiteColor} />
-            </View>
-            <View style={styles.contentInforAction}>
-              <View>
-                <Text caption2 grayColor>
-                  {t("open_hour")}
-                </Text>
-              </View>
-              <Icon
-                name={collapseHour ? "angle-up" : "angle-down"}
-                size={24}
-                color={BaseColor.grayColor}
-              />
-            </View>
-          </TouchableOpacity>
-          <View
-            style={{
-              paddingLeft: 40,
-              paddingRight: 20,
-              marginTop: 5,
-              height: collapseHour ? 0 : null,
-              overflow: "hidden",
-            }}
-          >
-            {product?.openTime?.map?.((item) => {
-              return (
-                <View
-                  style={[styles.lineWorkHours, { borderColor: colors.border }]}
-                  key={item.label}
-                >
-                  <Text body2 grayColor>
-                    {t(item.label)}
-                  </Text>
-                  <Text body2 accentColor semibold>
-                    {`${item.start} - ${item.end}`}
-                  </Text>
-                </View>
-              );
-            })}
-          </View>
+         
+        
         </View>
         <View
           style={[styles.contentDescription, { borderColor: colors.border }]}
@@ -556,24 +530,27 @@ const  image = async (item)  => {
                 {t("date_established")}
               </Text>
               <Text headline style={{ marginTop: 5 }}>
-                {product?.dateEstablish}
+                {product?.dateEstablish.substring(0, 10)}
               </Text>
             </View>
             <View style={{ flex: 1, alignItems: "flex-end" }}>
               <Text caption1 grayColor>
                 {t("price_range")}
               </Text>
+              
               <Text headline style={{ marginTop: 5 }}>
-                {`${product?.priceMin ?? "-"}$ - ${product?.priceMax ?? "-"}$`}
+                {` ${product?.priceMax ?? "-"}$`}
               </Text>
             </View>
           </View>
+          {product?.location?.latitude != 0 ? 
           <View
             style={{
               height: 180,
               paddingVertical: 20,
             }}
           >
+           
             <MapView
               provider={PROVIDER_GOOGLE}
               style={styles.map}
@@ -591,7 +568,9 @@ const  image = async (item)  => {
                 }}
               />
             </MapView>
+           
           </View>
+          :null}
         </View>
         <Text
           title3
@@ -604,6 +583,7 @@ const  image = async (item)  => {
         >
           {t("facilities")}
         </Text>
+        
         <View style={[styles.wrapContent, { borderColor: colors.border }]}>
           {product?.features?.map?.((item) => {
             return (
@@ -629,6 +609,7 @@ const  image = async (item)  => {
             );
           })}
         </View>
+      
         <Text
           title3
           semibold
@@ -639,11 +620,12 @@ const  image = async (item)  => {
         >
           {t("featured")}
         </Text>
+        {product?.feature === 0 ?
         <FlatList
           contentContainerStyle={{ paddingLeft: 5, paddingRight: 20 }}
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          data={product?.related ?? []}
+          data={relatedproduct}
           keyExtractor={(item, index) => `featured ${index}`}
           renderItem={({ item, index }) => (
             <ListItem
@@ -666,7 +648,7 @@ const  image = async (item)  => {
               }}
             />
           )}
-        />
+        />:null}
         <Text
           title3
           semibold
@@ -716,7 +698,7 @@ const  image = async (item)  => {
         }}
         onPressRight={() => {
           navigation.navigate("PreviewImage", {
-            gallery: product?.gallery,
+            gallery: gallary,
           });
         }}
       />

@@ -11,7 +11,7 @@ export default function PreviewImage({ navigation, route }) {
   let flatListRef = null;
   let swiperRef = null;
 
-  const [images, setImages] = useState(route.params?.gallery ?? []);
+  const [images, setImages] = useState(route.params?.gallery );
   const [indexSelected, setIndexSelected] = useState(0);
 
   /**
@@ -89,7 +89,7 @@ export default function PreviewImage({ navigation, route }) {
                 key={`image${key}`}
                 style={{ width: "100%", height: "100%" }}
                 resizeMode="contain"
-                source={item.full}
+                source={{uri:item}}
               />
             );
           })}
@@ -134,7 +134,7 @@ export default function PreviewImage({ navigation, route }) {
                         : BaseColor.grayColor,
                     borderWidth: 1,
                   }}
-                  source={item.full}
+                  source={{uri:item}}
                 />
               </TouchableOpacity>
             )}

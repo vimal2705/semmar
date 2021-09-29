@@ -14,7 +14,7 @@ export default class ProductModel {
     // this.category = json?.category ? new CategoryModel(json?.category) : null;
     this.createDate = json?.date;
     this.dateEstablish = json?.date;
-    this.rate = json?._rtcl_average_rating?.toString();
+    this.rate = json?._rtcl_average_rating;
     this.numRate = json?._rtcl_review_count;
     this.rateText = json?.post_status;
     this.status = json?.status;
@@ -25,8 +25,8 @@ export default class ProductModel {
     this.email = json?.email;
     this.website = json?.website;
     this.description = json?.content.rendered;
-    this.image =  json?._links['wp:attachment']['0'].href
-    // this.priceMin = json?.price_min;
+    this.image =  json?._links['wp:attachment']['0'].href;
+    this.feature = json?.featured;
      this.priceMax = json?.price;
     this.link = json?.link;
     // this.openTime = json?.opening_hour?.map?.((item) => {
@@ -38,9 +38,7 @@ export default class ProductModel {
     // this.features = json?.features?.map?.((item) => {
     //   return new CategoryModel(item);
     // });
-    // this.related = json?.related?.map?.((item) => {
-    //   return new ProductModel(item);
-    // });
+    this.related = json?._links.collection[0].href
     // this.lastest = json?.lastest?.map?.((item) => {
     //   return new ProductModel(item);
     // });
