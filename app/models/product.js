@@ -6,26 +6,28 @@ import OpenTimeModel from "./open_time";
 
 export default class ProductModel {
   constructor(json) {
-    this.id = json?.ID?.toString();
-    this.title = json?.post_title;
+    
+    this.id = json?.id?.toString();
+    this.title = json?.title.rendered;
     // this.author = json?.author ? new UserModel(json?.author) : null;
-    // // this.image = json?.image ? new ImageModel(json?.image) : null;
+    // this.image = json?.image ? new ImageModel(json?.image) : null;
     // this.category = json?.category ? new CategoryModel(json?.category) : null;
-    this.createDate = json?.post_date;
-    this.dateEstablish = json?.date_establish;
-    this.rate = json?._rtcl_average_rating;
-    this.numRate = json?.rating_count;
+    this.createDate = json?.date;
+    this.dateEstablish = json?.date;
+    this.rate = json?._rtcl_average_rating?.toString();
+    this.numRate = json?._rtcl_review_count;
     this.rateText = json?.post_status;
     this.status = json?.status;
     this.favorite = json?.wishlist;
     this.address = json?.address;
     this.phone = json?.phone;
-    this.fax = json?.fax;
+    this.fax = json?._links.self[0].href;
     this.email = json?.email;
     this.website = json?.website;
-    this.description = json?.post_excerpt;
+    this.description = json?.content.rendered;
+    this.image =  json?._links['wp:attachment']['0'].href
     // this.priceMin = json?.price_min;
-    // this.priceMax = json?.price_max;
+     this.priceMax = json?.price;
     this.link = json?.link;
     // this.openTime = json?.opening_hour?.map?.((item) => {
     //   return new OpenTimeModel(item);

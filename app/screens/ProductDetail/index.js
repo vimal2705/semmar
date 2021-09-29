@@ -35,7 +35,7 @@ import {
 import { productActions, wishListActions } from "@actions";
 import { userSelect, wishlistSelect, designSelect } from "@selectors";
 import styles from "./styles";
-
+import axios from "axios";
 export default function ProductDetail({ navigation, route }) {
   const { t } = useTranslation();
   const { colors } = useTheme();
@@ -52,6 +52,8 @@ export default function ProductDetail({ navigation, route }) {
   const [heightHeader, setHeightHeader] = useState(Utils.heightHeader());
   const heightImageBanner = Utils.scaleWithPixel(250, 1);
 
+  const [productImage, setproductImage] = useState('')
+
   useEffect(() => {
     loadData();
   }, []);
@@ -66,11 +68,18 @@ export default function ProductDetail({ navigation, route }) {
         setLoading(false);
         setProduct(item);
         setLike(isFavorite(item));
-        console.log();
+        image(item)
+        
+        
       })
     );
   };
 
+const  image = async (item)  => {
+  const image = await axios.get(item.image);
+        const imgarray = image.data
+      setproductImage(imgarray[0].media_details.sizes.medium_large.source_url)
+}
   /**
    * check wishlist state
    * only UI kit
@@ -237,7 +246,7 @@ export default function ProductDetail({ navigation, route }) {
         ]}
       >
         <Image
-          source={product?.image?.full}
+          source={{uri:productImage}}
           style={{ width: "100%", height: "100%" }}
         />
         <Animated.View

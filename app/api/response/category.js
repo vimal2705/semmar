@@ -5,13 +5,13 @@ import { useState } from "react";
 export const getCategory = async ({ params }) => {
 
   await Utils.delay(1000);
-  const cat = await Axios.get('http://semmsar.com/wp-json/wp/v2/rtcl_category');
+  const cat = await Axios.get('http://semmsar.com/wp-json/wp/v2/rtcl_category?_embed');
   const array = cat.data
   const array_name = []
   console.log(array.length);
   console.log('1235',array)
   for (let i = 0; i < array.length; i++) {
-    console.log(`asd${i}`, array[i].name);
+    console.log(`asd${i}`, array[i]._embedded.up[0].name);
    array_name.push(array[i].name)
   }
   console.log('123',array_name);
