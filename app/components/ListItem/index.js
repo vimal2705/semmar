@@ -171,7 +171,7 @@ export default function ListItem(props) {
     return (
       <TouchableOpacity style={[styles.listContent, style]} onPress={onPress}>
         <View onPress={onPress}>
-          <Image source={image} style={styles.listImage} />
+          <Image source={{uri:image}} style={styles.listImage} />
           <Tag status style={styles.listTagStatus}>
             {t(status)}
           </Tag>
@@ -254,7 +254,7 @@ export default function ListItem(props) {
     return (
       <TouchableOpacity style={[styles.girdContent, style]} onPress={onPress}>
         <View>
-          <Image source={image} style={styles.girdImage} />
+          <Image source={{uri:image}} style={styles.girdImage} />
           <Tag status style={styles.tagGirdStatus}>
             {t(status)}
           </Tag>
@@ -337,7 +337,7 @@ export default function ListItem(props) {
 
     return (
       <TouchableOpacity style={[styles.contain, style]} onPress={onPress}>
-        <Image source={image} style={styles.smallImage} />
+        <Image source={{uri:image}} style={styles.smallImage} />
         <View
           style={{ paddingHorizontal: 10, justifyContent: "center", flex: 1 }}
         >
@@ -378,7 +378,7 @@ export default function ListItem(props) {
 
 ListItem.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  image: PropTypes.node.isRequired,
+  image: PropTypes.string,
   loading: PropTypes.bool,
   list: PropTypes.bool,
   block: PropTypes.bool,

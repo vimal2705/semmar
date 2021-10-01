@@ -14,12 +14,15 @@ import styles from "./styles";
 import { settingSelect } from "@selectors";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
+import * as local from "../../api/response";
+import { listActions } from "@actions";
 
 export default function Filter({ navigation, route }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const setting = useSelector(settingSelect);
-  const filter = route?.params?.filter;
+  const filter = route.params?.filter;
+
 
   const [priceBegin, setPriceBegin] = useState(filter?.minPrice ?? 0);
   const [priceEnd, setPriceEnd] = useState(filter?.maxPrice ?? 100);
@@ -28,22 +31,35 @@ export default function Filter({ navigation, route }) {
   const [businessColor, setBusinessColor] = useState(filter?.color);
   const [location, setLocation] = useState(filter?.location);
   const [scrollEnabled, setScrollEnabled] = useState(true);
+  const [loader, setloader] = useState(false)
+
 
   /**
    * on Apply filter
    *
    */
   const onApply = () => {
+
     filter.category = selectedCategory;
-    filter.feature = selectedFacilities;
-    filter.color = businessColor;
+    // filter.feature = selectedFacilities;
+    // filter.color = businessColor;
     filter.location = location;
-    if (setting?.priceMin != priceBegin || setting?.priceMax != priceEnd) {
-      filter.minPrice = priceBegin;
-      filter.maxPrice = priceEnd;
-    }
-    route.params?.onApply?.(filter);
-    navigation.goBack();
+    // if (setting?.priceMin != priceBegin || setting?.priceMax != priceEnd) {
+    //   filter.minPrice = priceBegin;
+    //   filter.maxPrice = priceEnd;
+    // }
+   
+    // console.log('list',filter.category[0].link);
+    // dispatch(
+    //   listActions.onLoadList(filter, design, () => {
+    //     setLoading(false);
+    //     setRefreshing(false);
+    //     fetch(filter)
+    //   })
+    // );
+    route.params?.onApply?.(filter.category[0],true);
+
+    navigation.navigate("List",{data:filter.category[0],loader:true});
   };
 
   /**
@@ -81,14 +97,14 @@ export default function Filter({ navigation, route }) {
    * on select Feature
    * @param {*} select
    */
-  const onSelectFeature = (select) => {
-    const exist = selectedFacilities.some((item) => item.id === select.id);
-    if (exist) {
-      setFacilities(selectedFacilities.filter((item) => item.id != select.id));
-    } else {
-      setFacilities(selectedFacilities.concat(select));
-    }
-  };
+  // const onSelectFeature = (select) => {
+  //   const exist = selectedFacilities.some((item) => item.id === select.id);
+  //   if (exist) {
+  //     setFacilities(selectedFacilities.filter((item) => item.id != select.id));
+  //   } else {
+  //     setFacilities(selectedFacilities.concat(select));
+  //   }
+  // };
 
   return (
     <View style={{ flex: 1 }}>
@@ -125,19 +141,19 @@ export default function Filter({ navigation, route }) {
                   <Tag
                     primary={selected}
                     outline={!selected}
-                    key={item.id.toString()}
+                    key={item.id}
                     style={{
                       marginTop: 8,
                       marginRight: 8,
                     }}
                     onPress={() => onSelectCategory(item)}
                   >
-                    {item.title}
+                    {item.cattitle}
                   </Tag>
                 );
               })}
             </View>
-            <Text headline semibold style={{ marginTop: 20 }}>
+            {/* <Text headline semibold style={{ marginTop: 20 }}>
               {t("facilities").toUpperCase()}
             </Text>
             <View style={styles.wrapContent}>
@@ -158,7 +174,7 @@ export default function Filter({ navigation, route }) {
                       />
                     }
                     chip
-                    key={item.id.toString()}
+                    key={item.id}
                     style={{
                       marginTop: 8,
                       marginRight: 8,
@@ -169,7 +185,7 @@ export default function Filter({ navigation, route }) {
                   </Tag>
                 );
               })}
-            </View>
+            </View> */}
             <TouchableOpacity
               style={styles.locationContent}
               onPress={() => onNavigateLocation()}
@@ -190,7 +206,7 @@ export default function Filter({ navigation, route }) {
               </View>
               <Icon name="angle-right" size={18} color={BaseColor.grayColor} />
             </TouchableOpacity>
-            <Text headline semibold style={{ marginTop: 20 }}>
+            {/* <Text headline semibold style={{ marginTop: 20 }}>
               {t("price").toUpperCase()}
             </Text>
             <View style={styles.contentRange}>
@@ -214,9 +230,9 @@ export default function Filter({ navigation, route }) {
               <Text caption1>
                 ${priceBegin} - ${priceEnd}
               </Text>
-            </View>
+            </View> */}
           </View>
-          <Text
+          {/* <Text
             headline
             semibold
             style={{
@@ -225,8 +241,8 @@ export default function Filter({ navigation, route }) {
             }}
           >
             {t("business_color").toUpperCase()}
-          </Text>
-          <FlatList
+          </Text> */}
+          {/* <FlatList
             contentContainerStyle={{ paddingVertical: 10 }}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
@@ -248,7 +264,7 @@ export default function Filter({ navigation, route }) {
                 </TouchableOpacity>
               );
             }}
-          />
+          /> */}
         </ScrollView>
       </SafeAreaView>
     </View>

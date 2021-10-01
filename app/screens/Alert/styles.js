@@ -27,5 +27,5 @@ export default StyleSheet.create({
     justifyContent: "center",
     padding: 12,
   },
-  message: { marginTop: 8, textAlign: "center" },
+  message: { marginTop: 8, textAlign: "center" ,color:"#111"},
 });

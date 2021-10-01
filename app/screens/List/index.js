@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FlatList, RefreshControl, View, Animated } from "react-native";
+import { FlatList, RefreshControl, View, Animated,Alert } from "react-native";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { BaseStyle, BaseColor, useTheme } from "@config";
 import Carousel from "react-native-snap-carousel";
+import axios from "axios";
 import {
   Header,
   SafeAreaView,
@@ -14,6 +15,8 @@ import {
 import styles from "./styles";
 import * as Utils from "@utils";
 import { useTranslation } from "react-i18next";
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   listSelect,
@@ -24,7 +27,7 @@ import {
 } from "@selectors";
 import { listActions } from "@actions";
 
-export default function List({ navigation, route }) {
+export default function List({ navigation, route ,props}) {
   const { t } = useTranslation();
   const { colors } = useTheme();
   const dispatch = useDispatch();
@@ -33,6 +36,7 @@ export default function List({ navigation, route }) {
   const design = useSelector(designSelect);
   const setting = useSelector(settingSelect);
   const user = useSelector(userSelect);
+  const isFocused = useIsFocused();
 
   const scrollAnim = new Animated.Value(0);
   const offsetAnim = new Animated.Value(0);
@@ -50,24 +54,61 @@ export default function List({ navigation, route }) {
   );
 
   const sliderRef = useRef(null);
-  const [filter, setFilter] = useState(route.params?.filter);
+  const [filter, setFilter] = useState(route.params?.data);
   const [active, setActive] = useState(0);
   const [viewportWidth] = useState(Utils.getWidthDevice());
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [modeView, setModeView] = useState(setting.mode);
   const [mapView, setMapView] = useState(false);
+  const [product, setProduct] = useState([]);
+  const [filterloader, setfilterloader] = useState(route.params?.loader)
   const [region, setRegion] = useState({
     latitude: 0.0,
     longitude: 0.0,
     latitudeDelta: 0.009,
     longitudeDelta: 0.004,
   });
+// console.log('isitright',route.params?.loader);
+// if (route.params?.loader) {
+//   setLoading(true)
 
+// }
   useEffect(() => {
+    console.log('isitright12 : '+filterloader);
     loadData(filter);
-  }, []);
+      // if (route.params?.loader) {
+      //     setLoading(true)
+      //     alert('isitright56: '+filterloader);
+      // }
 
+      const unsubscribe = navigation.addListener('focus', () => {
+        
+        // console.log("FILTER LOADER: "+route.params?.loader);
+        console.log("FILTER LOADER: "+filterloader);
+        // The screen is focused
+        // Call any action
+      });
+  
+      // Return the function to unsubscribe from the event so it gets removed on unmount
+      return unsubscribe;
+  }, [navigation]);
+  // filter,route.params?.loader
+  const fetch = async (item) => {
+    const array = await axios.get(item.link + "&_embed");
+    const fetcarray = array.data;
+    console.log('asslen',fetcarray.length)
+    const relatedarray = [];
+    for (let i = 0; i < fetcarray.length; i++) {
+      // console.log(`fetcarray${i}`,fetcarray )
+      relatedarray.push(fetcarray[i]);
+
+      // console.log(`ass${i}`,fetcarray[i])
+    }
+
+    setProduct(relatedarray);
+    // alert(route.param?.data);
+  };
   /**
    * on Load data
    *
@@ -77,6 +118,7 @@ export default function List({ navigation, route }) {
       listActions.onLoadList(filter, design, () => {
         setLoading(false);
         setRefreshing(false);
+        fetch(filter);
       })
     );
   };
@@ -506,20 +548,25 @@ export default function List({ navigation, route }) {
                 ],
                 { useNativeDriver: true }
               )}
-              data={list.data}
+              data={product}
               key={"block"}
               keyExtractor={(item, index) => `block ${index}`}
               renderItem={({ item, index }) => (
                 <ListItem
                   block
-                  image={item.image?.full}
-                  title={item.title}
+                  image={
+                    typeof item._embedded["wp:featuredmedia"] === "undefined"
+                      ? ""
+                      : item._embedded["wp:featuredmedia"]["0"].media_details
+                          .sizes.thumbnail.source_url
+                  }
+                  title={item.title.rendered}
                   subtitle={item.category?.title}
                   location={item.address}
                   phone={item.phone}
-                  rate={item.rate}
+                  rate={item._rtcl_average_rating}
                   status={item.status}
-                  numReviews={item.numRate}
+                  numReviews={item._rtcl_review_count}
                   favorite={isFavorite(item)}
                   onPress={() => onProductDetail(item)}
                   onPressTag={() => onReview(item)}
@@ -577,18 +624,23 @@ export default function List({ navigation, route }) {
               )}
               showsVerticalScrollIndicator={false}
               numColumns={2}
-              data={list.data}
+              data={product}
               key={"gird"}
               keyExtractor={(item, index) => `gird ${index}`}
               renderItem={({ item, index }) => (
                 <ListItem
                   grid
-                  image={item.image?.full}
-                  title={item.title}
+                  image={
+                    typeof item._embedded["wp:featuredmedia"] === "undefined"
+                      ? ""
+                      : item._embedded["wp:featuredmedia"]["0"].media_details
+                          .sizes.thumbnail.source_url
+                  }
+                  title={item.title.rendered}
                   subtitle={item.category?.title}
                   location={item.address}
                   phone={item.phone}
-                  rate={item.rate}
+                  rate={item._rtcl_average_rating}
                   status={item.status}
                   numReviews={item.numRate}
                   favorite={isFavorite(item)}
@@ -650,20 +702,25 @@ export default function List({ navigation, route }) {
                 ],
                 { useNativeDriver: true }
               )}
-              data={list.data}
+              data={product}
               key={"list"}
               keyExtractor={(item, index) => `list ${index}`}
               renderItem={({ item, index }) => (
                 <ListItem
                   list
-                  image={item.image?.full}
-                  title={item.title}
+                  image={
+                    typeof item._embedded["wp:featuredmedia"] === "undefined"
+                      ? ""
+                      : item._embedded["wp:featuredmedia"]["0"].media_details
+                          .sizes.thumbnail.source_url
+                  }
+                  title={item.title.rendered}
                   subtitle={item.category?.title}
                   location={item.address}
                   phone={item.phone}
-                  rate={item.rate}
+                  rate={item._rtcl_average_rating}
                   status={item.status}
-                  numReviews={item.numRate}
+                  numReviews={item._rtcl_review_count}
                   favorite={isFavorite(item)}
                   style={{
                     marginBottom: 15,
@@ -720,20 +777,25 @@ export default function List({ navigation, route }) {
                 ],
                 { useNativeDriver: true }
               )}
-              data={list.data}
+              data={product}
               key={"block"}
               keyExtractor={(item, index) => `block ${index}`}
               renderItem={({ item, index }) => (
                 <ListItem
                   block
-                  image={item.image?.full}
-                  title={item.title}
+                  image={
+                    typeof item._embedded["wp:featuredmedia"] === "undefined"
+                      ? ""
+                      : item._embedded["wp:featuredmedia"]["0"].media_details
+                          .sizes.thumbnail.source_url
+                  }
+                  title={item.title.rendered}
                   subtitle={item.subtitle}
                   location={item.address}
                   phone={item.phone}
-                  rate={item.rate}
+                  rate={item._rtcl_average_rating}
                   status={item.status}
-                  numReviews={item.numReviews}
+                  numReviews={item._rtcl_review_count}
                   favorite={isFavorite(item)}
                   onPress={() => onProductDetail(item)}
                   onPressTag={() => onReview(item)}
@@ -807,10 +869,15 @@ export default function List({ navigation, route }) {
             renderItem={({ item, index }) => (
               <ListItem
                 small
-                image={item.image?.full}
-                title={item.title}
+                image={
+                  typeof item._embedded["wp:featuredmedia"] === "undefined"
+                    ? ""
+                    : item._embedded["wp:featuredmedia"]["0"].media_details
+                        .sizes.thumbnail.source_url
+                }
+                title={item.title.rendered}
                 subtitle={item.category?.title}
-                rate={item.rate}
+                rate={item._rtcl_average_rating}
                 favorite={isFavorite(item)}
                 style={{
                   margin: 3,

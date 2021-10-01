@@ -14,14 +14,14 @@ export default function Card(props) {
       onPress={onPress}
       activeOpacity={0.9}
     >
-      <Image source={image} style={styles.card} />
+      <Image source={{uri:image}} style={styles.card} />
       <View style={[styles.content, styleContent]}>{children}</View>
     </TouchableOpacity>
   );
 }
 
 Card.propTypes = {
-  image: PropTypes.node.isRequired,
+  image: PropTypes.string,
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   styleContent: PropTypes.object,
   children: PropTypes.oneOfType([
@@ -32,7 +32,7 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
-  image: Images.profile2,
+  image: "",
   style: {},
   styleContent: {},
   onPress: () => {},

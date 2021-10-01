@@ -77,7 +77,7 @@ export default function Category({ navigation }) {
     } else {
       setCategory(
         category.filter((item) => {
-          return item.title.toUpperCase().includes(search.toUpperCase());
+          return item.cattitle.toUpperCase().includes(search.toUpperCase());
         })
       );
     }
@@ -96,11 +96,11 @@ export default function Category({ navigation }) {
           <CategoryIcon
             icon={Utils.iconConvert(item.icon)}
             color={item.color}
-            title={item.title}
+            title={item.cattitle}
             subtitle={item.count.toString()}
             onPress={() => {
               const filter = new FilterModel();
-              navigation.navigate("List", { filter });
+              navigation.navigate("List", { data:item  });
             }}
             style={[styles.itemIcon, { borderColor: colors.border }]}
           />
@@ -109,14 +109,14 @@ export default function Category({ navigation }) {
         return (
           <CategoryFull
             // image={item.image?.full}
-            // color={item.color}
-            // icon={Utils.iconConvert(item.icon)}
-            title={item.title}
+            color={item.color}
+            icon={Utils.iconConvert(item.icon)}
+            title={item.cattitle}
 
-            // subtitle={item.count.toString()}
+            subtitle={item.count.toString()}
             onPress={() => {
               const filter = new FilterModel();
-              navigation.navigate("List", { filter });
+              navigation.navigate("List", {data:item });
             }}
             style={{
               marginBottom: 15,

@@ -8,8 +8,6 @@ export const getCategory = async ({ params }) => {
   const cat = await Axios.get('http://semmsar.com/wp-json/wp/v2/rtcl_category?_embed');
   const array = cat.data
   const array_name = []
-  console.log(array.length);
-  console.log('1235',array)
   for (let i = 0; i < array.length; i++) {
     console.log(`asd${i}`, array[i]._embedded.up[0].name);
    array_name.push(array[i].name)

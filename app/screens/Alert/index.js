@@ -56,9 +56,10 @@ export default function Alert({ route, navigation }) {
             if (option?.cancelable) navigation.goBack();
           }}
         >
-          <Text body2 semibold>
+
+          {/* <Text body2  semibold>
             {title}
-          </Text>
+          </Text> */}
         </TouchableOpacity>
       );
     }
@@ -85,7 +86,7 @@ export default function Alert({ route, navigation }) {
           <Text title3 medium>
             {title}
           </Text>
-          <Text body2 medium style={styles.message}>
+          <Text body2  medium style={styles.message}>
             {message}
           </Text>
         </View>

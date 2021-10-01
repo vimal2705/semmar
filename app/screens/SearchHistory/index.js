@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   TouchableOpacity,
@@ -20,24 +20,39 @@ import { ProductModel } from "@models";
 import { BaseCollection } from "../../api/response/collection";
 import { useSelector } from "react-redux";
 import { wishlistSelect } from "@selectors";
-
+import axios from "axios"
 let timeout;
 
 export default function SearchHistory({ navigation }) {
+  
+
   const { colors } = useTheme();
   const { t } = useTranslation();
   const wishlist = useSelector(wishlistSelect);
-  const search = BaseCollection.map((item) => new ProductModel(item));
+  const search = collection
   const [history, setHistory] = useState(search);
   const [result, setResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [collection, setcollection] = useState([])
+
+  useEffect(() => {
+  searchproduct()
+  }, [])
 
   /**
    * check wishlist state
    * only UI kit
    */
+
+  const searchproduct = async() => {
+    const recent = await axios.get('http://semmsar.com/wp-json/wp/v2/rtcl_listing?_embed');
+    const recent_post = recent.data
+    setcollection(recent_post)
+    
+   
+  }
   const isFavorite = (item) => {
     return wishlist.list?.some((i) => i.id == item.id);
   };
@@ -54,7 +69,7 @@ export default function SearchHistory({ navigation }) {
       timeout = setTimeout(() => {
         setResult(
           search.filter((item) => {
-            return item.title.toUpperCase().includes(keyword.toUpperCase());
+            return item.title.rendered.toUpperCase().includes(keyword.toUpperCase());
           })
         );
         setLoading(false);
@@ -97,7 +112,7 @@ export default function SearchHistory({ navigation }) {
             <ListItem
               small
               image={item.image?.full}
-              title={item.title}
+              title={item.title.rendered}
               subtitle={item.category?.title}
               location={item.address}
               phone={item.phone}

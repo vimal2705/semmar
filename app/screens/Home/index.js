@@ -94,15 +94,16 @@ export default function Home({ navigation }) {
                   styles.serviceItem,
                   { width: Utils.getWidthDevice() * 0.24 },
                 ]}
-                onPress={() => {
-                  const filter = new FilterModel();
-                  navigation.navigate("List", { filter });
+                onPress={() => 
+                  {
+                  // const filter = new FilterModel();
+                  navigation.navigate("List", { data : item });
                 }}
               >
                 <View
                   style={[
                     styles.serviceCircleIcon,
-                    { backgroundColor: item.color },
+                    { backgroundColor: "blue" },
                   ]}
                 >
                   <Icon
@@ -113,7 +114,7 @@ export default function Home({ navigation }) {
                   />
                 </View>
                 <Text footnote numberOfLines={1}>
-                  {t(item.title)}
+                  {t(item.cattitle)}
                 </Text>
               </TouchableOpacity>
             );
@@ -165,11 +166,11 @@ export default function Home({ navigation }) {
             return (
               <Card
                 style={[styles.popularItem, { marginLeft: 15 }]}
-                image={item.image?.full}
-                onPress={() => {
-                  const filter = new FilterModel();
-                  navigation.navigate("List", { filter });
-                }}
+                image={item.img}
+                onPress={() => console.log('aaa', item)}
+                //   const filter = new FilterModel();
+                //   navigation.navigate("List", { filter });
+                // }}
               >
                 <Text headline whiteColor semibold>
                   {item.title}
@@ -214,7 +215,7 @@ export default function Home({ navigation }) {
           <ListItem
             small
             key={`recent${item.id}`}
-            image={item.image?.full}
+            image={item.imagemedia}
             title={item.title}
             subtitle={item.category?.title}
             rate={item.rate}

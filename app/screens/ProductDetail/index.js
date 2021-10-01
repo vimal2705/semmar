@@ -81,18 +81,29 @@ export default function ProductDetail({ navigation, route }) {
   const fetch = async (item) => {
     const array = await axios.get(item.related);
     const fetcarray = array.data
-    console.log(item.related)
-console.log(fetcarray[2].id)
-    setrelatedproduct(fetcarray)
+    console.log('asslen',fetcarray.length)
+    const relatedarray = []
+for (let i = 0; i < fetcarray.length; i++) {
+       
+
+relatedarray.push(fetcarray[i])
+
+// console.log(`ass${i}`,fetcarray[i])
+}
+setrelatedproduct(relatedarray)
 
   }
+
+  console.log('asd',relatedproduct)
+
+  
 const  image = async (item)  => {
   const image = await axios.get(item.image);
         const imgarray = image.data
         const array = []
       setproductImage(imgarray[0].media_details.sizes.medium_large.source_url)
       for (let i = 0; i < imgarray.length; i++) {
-        console.log('asssa',imgarray[i].media_details.sizes.medium_large.source_url);
+       console.log('EMDEB',imgarray[0].media_details.sizes.medium_large.source_url);
         array.push(imgarray[i].media_details.sizes.medium_large.source_url)
       }
       setgallary(array)
@@ -572,7 +583,7 @@ const  image = async (item)  => {
           </View>
           :null}
         </View>
-        <Text
+        {/* <Text
           title3
           semibold
           style={{
@@ -608,7 +619,7 @@ const  image = async (item)  => {
               </Tag>
             );
           })}
-        </View>
+        </View> */}
       
         <Text
           title3
@@ -620,7 +631,7 @@ const  image = async (item)  => {
         >
           {t("featured")}
         </Text>
-        {product?.feature === 0 ?
+        {relatedproduct.length != 0 ?
         <FlatList
           contentContainerStyle={{ paddingLeft: 5, paddingRight: 20 }}
           horizontal={true}
@@ -630,15 +641,15 @@ const  image = async (item)  => {
           renderItem={({ item, index }) => (
             <ListItem
               grid
-              image={item.image?.full}
-              title={item.title}
-              subtitle={item.category?.title}
+              image={typeof  item._embedded['wp:featuredmedia'] === "undefined" ?"" :item._embedded['wp:featuredmedia']["0"].media_details.sizes.thumbnail.source_url}
+              title={item.title.rendered}
+              // subtitle={item.title}
               location={item.address}
               phone={item.phone}
-              rate={item.rate}
+              rate={item._rtcl_average_rating}
               status={item.status}
-              rateStatus={item.rateStatus}
-              numReviews={item.numReviews}
+              rateStatus={item._rtcl_average_rating}
+              numReviews={item._rtcl_review_count}
               favorite={isFavorite(item)}
               onPress={() => onProductDetail(item)}
               onPressTag={onReview}
@@ -660,15 +671,15 @@ const  image = async (item)  => {
           {t("related")}
         </Text>
         <View style={{ paddingHorizontal: 20 }}>
-          {product?.lastest?.map?.((item) => {
+          {relatedproduct.map?.((item) => {
             return (
               <ListItem
                 key={item.id.toString()}
                 small
-                image={item.image?.full}
-                title={item.title}
-                subtitle={item.category?.title}
-                rate={item.rate}
+                image={typeof  item._embedded['wp:featuredmedia'] === "undefined" ?"" :item._embedded['wp:featuredmedia']["0"].media_details.sizes.thumbnail.source_url}
+                title={item.title.rendered}
+                // subtitle={item.category?.title}
+                rate={item._rtcl_average_rating}
                 style={{ marginBottom: 15 }}
                 onPress={() => onProductDetail(item)}
                 onPressTag={onReview}

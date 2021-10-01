@@ -29,6 +29,8 @@ export default class ProductModel {
     this.feature = json?.featured;
      this.priceMax = json?.price;
     this.link = json?.link;
+
+ this.imagemedia = typeof json?._embedded["wp:featuredmedia"] === 'undefined'? ' ' : json?._embedded["wp:featuredmedia"]['0']["media_details"]["sizes"]["thumbnail"]["source_url"]
     // this.openTime = json?.opening_hour?.map?.((item) => {
     //   return new OpenTimeModel(item);
     // });
@@ -38,7 +40,7 @@ export default class ProductModel {
     // this.features = json?.features?.map?.((item) => {
     //   return new CategoryModel(item);
     // });
-    this.related = json?._links.collection[0].href
+    this.related = json?._embedded['wp:term']["0"]["0"]._links['wp:post_type']["0"].href+"&_embed"
     // this.lastest = json?.lastest?.map?.((item) => {
     //   return new ProductModel(item);
     // });
