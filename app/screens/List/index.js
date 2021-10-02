@@ -95,25 +95,95 @@ export default function List({ navigation, route ,props}) {
   }, [navigation]);
   // filter,route.params?.loader
   const fetch = async (item) => {
-    const array = await axios.get(item.link + "&_embed");
-    const fetcarray = array.data;
-    console.log('asslen',fetcarray.length)
-    const relatedarray = [];
-    for (let i = 0; i < fetcarray.length; i++) {
-      // console.log(`fetcarray${i}`,fetcarray )
-      relatedarray.push(fetcarray[i]);
+    if (typeof item.category === 'undefined') {
+      
+        const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location.term_id}&_embed`);
 
-      // console.log(`ass${i}`,fetcarray[i])
+      // const array = await axios.get(item.link + "&_embed");
+      const fetcarray = array.data;
+    
+      const relatedarray = [];
+      for (let i = 0; i < fetcarray.length; i++) {
+        // console.log(`fetcarray${i}`,fetcarray )
+        relatedarray.push(fetcarray[i]);
+    
+        // console.log(`ass${i}`,fetcarray[i])
+      }
+    
+      setProduct(relatedarray);
+    } else if(typeof item.location === 'undefined') {
+
+      const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_category=${item.category[0].parent_id}&_embed`);
+      // const array = await axios.get(item.link + "&_embed");
+      console.log('cat',item);
+      const fetcarray = array.data;
+      console.log('cat',item.category[0].parent_id);
+      const relatedarray = [];
+      for (let i = 0; i < fetcarray.length; i++) {
+        // console.log(`fetcarray${i}`,fetcarray )
+        relatedarray.push(fetcarray[i]);
+    
+        // console.log(`ass${i}`,fetcarray[i])
+      }
+    
+      setProduct(relatedarray);
+    }else if(typeof item.category !== 'undefined' && typeof item.location !== 'undefined' )
+    {
+      const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location.term_id}&rtcl_category=${item.parent_id}&_embed`);
+      // const array = await axios.get(item.link + "&_embed");
+      const fetcarray = array.data;
+    
+      const relatedarray = [];
+      for (let i = 0; i < fetcarray.length; i++) {
+        // console.log(`fetcarray${i}`,fetcarray )
+        relatedarray.push(fetcarray[i]);
+    
+        // console.log(`ass${i}`,fetcarray[i])
+      }
+    
+      setProduct(relatedarray);
+    
+      // alert(route.param?.data);
     }
+    else{
+    
+        const array = await axios.get(item.link + "&_embed");
+        const fetcarray = array.data;
+     
+        const relatedarray = [];
+        for (let i = 0; i < fetcarray.length; i++) {
+          // console.log(`fetcarray${i}`,fetcarray )
+          relatedarray.push(fetcarray[i]);
+    
+          // console.log(`ass${i}`,fetcarray[i])
+        }
+    
+        setProduct(relatedarray);
+      }
+        // alert(route.param?.data);
+      };
+    // //     const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location.term_id}&rtcl_category=${item.parent_id}&_embed`);
+    // // // const array = await axios.get(item.link + "&_embed");
+    // // const fetcarray = array.data;
+    // console.log('asslen',item.category)
+    // const relatedarray = [];
+    // for (let i = 0; i < fetcarray.length; i++) {
+    //   // console.log(`fetcarray${i}`,fetcarray )
+    //   relatedarray.push(fetcarray[i]);
 
-    setProduct(relatedarray);
-    // alert(route.param?.data);
-  };
+    //   // console.log(`ass${i}`,fetcarray[i])
+    // }
+
+    // setProduct(relatedarray);
+    // setLoading(false)
+    // // alert(route.param?.data);
+
   /**
    * on Load data
    *
    */
   const loadData = (filter) => {
+    setLoading(true)
     dispatch(
       listActions.onLoadList(filter, design, () => {
         setLoading(false);
@@ -164,6 +234,7 @@ export default function List({ navigation, route ,props}) {
       onApply: (filter) => {
         setFilter(filter);
         loadData(filter);
+        clearData()
       },
     });
   };

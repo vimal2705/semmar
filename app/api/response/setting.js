@@ -7,7 +7,7 @@ export const getSetting = async ({ params }) => {
   const location_array = location.data
 
 
-  const recent = await Axios.get('http://semmsar.com/wp-json/wp/v2/rtcl_listing?_embed');
+  const recent = await Axios.get('http://semmsar.com/wp-json/wp/v2/rtcl_location?_embed');
   const recent_post = recent.data
  
 

@@ -56,7 +56,7 @@ export default function PickerScreen({ route, navigation }) {
     } else {
       setData(
         data.filter((item) => {
-          return item.title.toUpperCase().includes(search.toUpperCase());
+          return item.name.toUpperCase().includes(search.toUpperCase());
         })
       );
     }
@@ -102,7 +102,7 @@ export default function PickerScreen({ route, navigation }) {
             data={data}
             keyExtractor={(item, index) => `Picker ${index}`}
             renderItem={({ item }) => {
-              const checked = item.id == selected?.id;
+              const checked = item.term_id == selected?.id;
               return (
                 <TouchableOpacity
                   style={[styles.item, { borderBottomColor: colors.border }]}
@@ -118,7 +118,7 @@ export default function PickerScreen({ route, navigation }) {
                         : {}
                     }
                   >
-                    {item.title}
+                    {item.name}
                   </Text>
                   {checked && (
                     <Icon name="check" size={14} color={colors.primary} />

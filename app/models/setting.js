@@ -17,9 +17,8 @@ export default class SettingModel {
     this.features = json?.features?.map?.((item) => {
       return new CategoryModel(item);
     });
-    this.locations = json?.locations?.map?.((item) => {
-      return new CategoryModel(item);
-    });
+    this.locations = json?.locations
+    
     this.sortOption = json?.place_sort_option?.map?.((item) => {
       return new SortModel(item);
     });

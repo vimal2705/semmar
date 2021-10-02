@@ -57,9 +57,14 @@ export default function Filter({ navigation, route }) {
     //     fetch(filter)
     //   })
     // );
-    route.params?.onApply?.(filter.category[0],true);
+    route.params?.onApply?.(filter);
 
-    navigation.navigate("List",{data:filter.category[0],loader:true});
+    // navigation.navigate("List",{data:filter});
+    // navigation.navigate({
+    //   name: 'List',
+    //   params: { data: filter, test: "post again test" },
+    //   merge: true,
+    // });
   };
 
   /**
@@ -196,7 +201,7 @@ export default function Filter({ navigation, route }) {
                 </Text>
                 {location ? (
                   <Text footnote primaryColor style={{ marginTop: 5 }}>
-                    {location.title}
+                    {location.name}
                   </Text>
                 ) : (
                   <Text footnote grayColor style={{ marginTop: 5 }}>
