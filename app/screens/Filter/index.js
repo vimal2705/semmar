@@ -58,8 +58,14 @@ export default function Filter({ navigation, route }) {
     //   })
     // );
     route.params?.onApply?.(filter);
+    if (typeof filter.category !== 'undefined' || typeof filter.location !== 'undefined')
 
-    // navigation.navigate("List",{data:filter});
+{    navigation.navigate("List",{check: true})
+}
+else{
+  navigation.navigate("List")
+}
+
     // navigation.navigate({
     //   name: 'List',
     //   params: { data: filter, test: "post again test" },
@@ -237,6 +243,13 @@ export default function Filter({ navigation, route }) {
               </Text>
             </View> */}
           </View>
+          <View><TouchableOpacity
+          onPress={() =>{
+            setCategory([])
+            setLocation([])
+            console.log('aas',selectedCategory);
+          }}
+          ><Text>clear</Text></TouchableOpacity></View>
           {/* <Text
             headline
             semibold

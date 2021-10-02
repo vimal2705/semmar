@@ -149,6 +149,9 @@ export default function FilterSort(props) {
         </Text>
       </TouchableOpacity>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
+        {/* <TouchableOpacity onPress={}>
+          <Text>clear</Text>
+        </TouchableOpacity> */}
         <TouchableOpacity onPress={onChangeView} style={styles.contentModeView}>
           <Icon
             name={iconModeView(modeView)}
@@ -187,4 +190,6 @@ FilterSort.defaultProps = {
   onChangeSort: () => {},
   onChangeView: () => {},
   onFilter: () => {},
+
+
 };

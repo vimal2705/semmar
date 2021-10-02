@@ -15,7 +15,7 @@ import {
 import styles from "./styles";
 import * as Utils from "@utils";
 import { useTranslation } from "react-i18next";
-import { NavigationContainer, useIsFocused } from '@react-navigation/native';
+
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -26,6 +26,8 @@ import {
   designSelect,
 } from "@selectors";
 import { listActions } from "@actions";
+import { NavigationContainer, useIsFocused, useFocusEffect } from '@react-navigation/native';
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function List({ navigation, route ,props}) {
   const { t } = useTranslation();
@@ -74,6 +76,23 @@ export default function List({ navigation, route ,props}) {
 //   setLoading(true)
 
 // }
+console.log('check',route.params?.check);
+useFocusEffect(
+  React.useCallback(() => {
+    // console.log("LOG SIM test: " + JSON.stringify(route.params?.test));
+    // Do something when the screen is focused
+   if (typeof route.params?.check !== 'undefined') {
+   console.log('check true',route.params?.check);
+
+    }
+    return () => {
+      console.log('Screen was unfocused');
+      // Do something when the screen is unfocused
+      // Useful for cleanup functions
+    };
+  }, [route.params?.check])
+);
+
   useEffect(() => {
     console.log('isitright12 : '+filterloader);
     loadData(filter);
@@ -81,55 +100,96 @@ export default function List({ navigation, route ,props}) {
       //     setLoading(true)
       //     alert('isitright56: '+filterloader);
       // }
-
-      const unsubscribe = navigation.addListener('focus', () => {
+    if ( route.param?.check === 'undefined' )
+    {
+      console.log('true',route.param?.check);
+    }
+    else{
+      console.log('fale');
+    }
+      // // const unsubscribe = navigation.addListener('focus', () => {
         
-        // console.log("FILTER LOADER: "+route.params?.loader);
-        console.log("FILTER LOADER: "+filterloader);
-        // The screen is focused
-        // Call any action
-      });
+      // //   // console.log("FILTER LOADER: "+route.params?.loader);
+      // //   console.log("FILTER LOADER: "+filterloader);
+      // //   // The screen is focused
+      // //   // Call any action
+      // // });
   
-      // Return the function to unsubscribe from the event so it gets removed on unmount
-      return unsubscribe;
-  }, [navigation]);
+      // // Return the function to unsubscribe from the event so it gets removed on unmount
+      // return unsubscribe;
+  }, [route.param?.check]);
   // filter,route.params?.loader
   const fetch = async (item) => {
-    if (typeof item.category === 'undefined') {
+
+    console.log('all',item.category,item.location)
+    if (typeof item.category === 'undefined' && typeof item.location === 'undefined' ) {
       
-        const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location.term_id}&_embed`);
+          const array = await axios.get(item.link + "&_embed");
+    const fetcarray = array.data;
+    console.log('asslen',item.category)
+    const relatedarray = [];
+    for (let i = 0; i < fetcarray.length; i++) {
+      // console.log(`fetcarray${i}`,fetcarray )
+      relatedarray.push(fetcarray[i]);
 
-      // const array = await axios.get(item.link + "&_embed");
-      const fetcarray = array.data;
-    
-      const relatedarray = [];
-      for (let i = 0; i < fetcarray.length; i++) {
-        // console.log(`fetcarray${i}`,fetcarray )
-        relatedarray.push(fetcarray[i]);
-    
-        // console.log(`ass${i}`,fetcarray[i])
-      }
-    
-      setProduct(relatedarray);
-    } else if(typeof item.location === 'undefined') {
 
-      const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_category=${item.category[0].parent_id}&_embed`);
-      // const array = await axios.get(item.link + "&_embed");
-      console.log('cat',item);
-      const fetcarray = array.data;
-      console.log('cat',item.category[0].parent_id);
-      const relatedarray = [];
-      for (let i = 0; i < fetcarray.length; i++) {
-        // console.log(`fetcarray${i}`,fetcarray )
-        relatedarray.push(fetcarray[i]);
-    
-        // console.log(`ass${i}`,fetcarray[i])
+    }
+
+    setProduct(relatedarray);
+    setLoading(false)
+  }else if(item.category.length === 0 &&  item.location.length === 0 ){
+
+    const array = await axios.get(item.link + "&_embed");
+    const fetcarray = array.data;
+    console.log('asslen',item.category)
+    const relatedarray = [];
+    for (let i = 0; i < fetcarray.length; i++) {
+      // console.log(`fetcarray${i}`,fetcarray )
+      relatedarray.push(fetcarray[i]);
+
+
+    }
+
+    setProduct(relatedarray);
+    setLoading(false)
+  }
+  else if(typeof item.location === 'undefined' || item.location.length === 0){
+    const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_category=${item.category[0].parent_id}&_embed`);
+        // const array = await axios.get(item.link + "&_embed");
+        console.log('cat',item);
+        const fetcarray = array.data;
+        console.log('cat',item.category[0].parent_id);
+        const relatedarray = [];
+        for (let i = 0; i < fetcarray.length; i++) {
+          // console.log(`fetcarray${i}`,fetcarray )
+          relatedarray.push(fetcarray[i]);
+      
+          // console.log(`ass${i}`,fetcarray[i])
+        }
+      
+        setProduct(relatedarray);
+      
+  }else if(typeof item.category === 'undefined' || item.category.length === 0 ){
+  const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location.term_id}&_embed`);
+        // const array = await axios.get(item.link + "&_embed");
+        console.log('cat',item.location.term_id);
+        const link = `http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location.term_id}&_embed`
+        console.log('cat',link);
+        const fetcarray = array.data;
+        
+        const relatedarray = [];
+        for (let i = 0; i < fetcarray.length; i++) {
+          // console.log(`fetcarray${i}`,fetcarray )
+          relatedarray.push(fetcarray[i]);
+      
+          // console.log(`ass${i}`,fetcarray[i])
+        }
+      
+        setProduct(relatedarray)
       }
-    
-      setProduct(relatedarray);
-    }else if(typeof item.category !== 'undefined' && typeof item.location !== 'undefined' )
+        else if(typeof item.category !== 'undefined' && typeof item.location !== 'undefined' )
     {
-      const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location.term_id}&rtcl_category=${item.parent_id}&_embed`);
+      const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location.term_id}&rtcl_category=${item.category[0].parent_id}&_embed`);
       // const array = await axios.get(item.link + "&_embed");
       const fetcarray = array.data;
     
@@ -145,8 +205,9 @@ export default function List({ navigation, route ,props}) {
     
       // alert(route.param?.data);
     }
-    else{
-    
+   else
+    {
+      
         const array = await axios.get(item.link + "&_embed");
         const fetcarray = array.data;
      
@@ -160,23 +221,7 @@ export default function List({ navigation, route ,props}) {
     
         setProduct(relatedarray);
       }
-        // alert(route.param?.data);
-      };
-    // //     const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location.term_id}&rtcl_category=${item.parent_id}&_embed`);
-    // // // const array = await axios.get(item.link + "&_embed");
-    // // const fetcarray = array.data;
-    // console.log('asslen',item.category)
-    // const relatedarray = [];
-    // for (let i = 0; i < fetcarray.length; i++) {
-    //   // console.log(`fetcarray${i}`,fetcarray )
-    //   relatedarray.push(fetcarray[i]);
-
-    //   // console.log(`ass${i}`,fetcarray[i])
-    // }
-
-    // setProduct(relatedarray);
-    // setLoading(false)
-    // // alert(route.param?.data);
+  } 
 
   /**
    * on Load data
@@ -188,6 +233,7 @@ export default function List({ navigation, route ,props}) {
       listActions.onLoadList(filter, design, () => {
         setLoading(false);
         setRefreshing(false);
+
         fetch(filter);
       })
     );
@@ -234,7 +280,7 @@ export default function List({ navigation, route ,props}) {
       onApply: (filter) => {
         setFilter(filter);
         loadData(filter);
-        clearData()
+    
       },
     });
   };
@@ -393,7 +439,11 @@ export default function List({ navigation, route ,props}) {
                 onChangeView={onChangeView}
                 onFilter={onFilter}
               />
+              
             </Animated.View>
+            <View>
+           
+              </View>
           </View>
         );
       case "grid":
@@ -1034,6 +1084,7 @@ export default function List({ navigation, route ,props}) {
         }}
         onPressLeft={() => {
           navigation.goBack();
+        
         }}
         renderRight={() => {
           return (
@@ -1057,7 +1108,9 @@ export default function List({ navigation, route ,props}) {
           onChangeMapView();
         }}
       />
+ 
       <SafeAreaView style={BaseStyle.safeAreaView} edges={["right", "left"]}>
+    
         {renderContent()}
       </SafeAreaView>
     </View>
