@@ -243,7 +243,8 @@ else{
               </Text>
             </View> */}
           </View>
-          <View><TouchableOpacity
+          <View style={{ alignItems:"center"}}><TouchableOpacity
+          style={selectedCategory.length === 0 ?  { borderWidth:1,borderRadius:15,padding:4,paddingHorizontal:15}: { borderWidth:0,borderRadius:15,padding:4,paddingHorizontal:15}}
           onPress={() =>{
             setCategory([])
             setLocation([])

@@ -49,6 +49,10 @@ export default function SearchHistory({ navigation }) {
   const searchproduct = async() => {
     const recent = await axios.get('http://semmsar.com/wp-json/wp/v2/rtcl_listing?_embed');
     const recent_post = recent.data
+  for (let i = 0; i < recent_post.length; i++) {
+    console.log('assas',recent_post[i].id);
+    
+  }
     setcollection(recent_post)
     
    
@@ -69,7 +73,7 @@ export default function SearchHistory({ navigation }) {
       timeout = setTimeout(() => {
         setResult(
           search.filter((item) => {
-            return item.title.rendered.toUpperCase().includes(keyword.toUpperCase());
+            return item.title.toUpperCase().includes(keyword.toUpperCase());
           })
         );
         setLoading(false);
@@ -111,14 +115,14 @@ export default function SearchHistory({ navigation }) {
           renderItem={({ item, index }) => (
             <ListItem
               small
-              image={item.image?.full}
+              // image={item.image?.full}
               title={item.title.rendered}
-              subtitle={item.category?.title}
-              location={item.address}
-              phone={item.phone}
-              rate={item.rate}
-              status={item.status}
-              numReviews={item.numRate}
+              // subtitle={item.category?.title}
+              // location={item.address}
+              // phone={item.phone}
+              // rate={item.rate}
+              // status={item.status}
+              // numReviews={item.numRate}
               favorite={isFavorite(item)}
               style={{
                 marginBottom: 15,

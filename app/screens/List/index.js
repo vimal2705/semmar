@@ -77,22 +77,22 @@ export default function List({ navigation, route ,props}) {
 
 // }
 console.log('check',route.params?.check);
-useFocusEffect(
-  React.useCallback(() => {
-    // console.log("LOG SIM test: " + JSON.stringify(route.params?.test));
-    // Do something when the screen is focused
-   if (typeof route.params?.check !== 'undefined') {
-   console.log('check true',route.params?.check);
+// useFocusEffect(
+//   React.useCallback(() => {
+//     // console.log("LOG SIM test: " + JSON.stringify(route.params?.test));
+//     // Do something when the screen is focused
+//    if (typeof route.params?.check !== 'undefined') {
+//    console.log('check true',route.params?.check);
 
-    }
-    return () => {
-      console.log('Screen was unfocused');
-      // Do something when the screen is unfocused
-      // Useful for cleanup functions
-    };
-  }, [route.params?.check])
-);
-
+//     }
+//     return () => {
+//       console.log('Screen was unfocused');
+//       // Do something when the screen is unfocused
+//       // Useful for cleanup functions
+//     };
+//   }, [route.params?.check])
+// );
+console.log(['maut',filter])
   useEffect(() => {
     console.log('isitright12 : '+filterloader);
     loadData(filter);
@@ -121,7 +121,7 @@ useFocusEffect(
   // filter,route.params?.loader
   const fetch = async (item) => {
 
-    console.log('all',item.category,item.location)
+    console.log('all',item.location_id)
     if (typeof item.category === 'undefined' && typeof item.location === 'undefined' ) {
       
           const array = await axios.get(item.link + "&_embed");
@@ -205,9 +205,27 @@ useFocusEffect(
     
       // alert(route.param?.data);
     }
-   else
+   else if(typeof item.id === 'undefined' )
     {
       
+      const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location_id}&_embed`);
+      // const array = await axios.get(item.link + "&_embed");
+      console.log('cat',item.location_id);
+ 
+      const fetcarray = array.data;
+      
+      const relatedarray = [];
+      for (let i = 0; i < fetcarray.length; i++) {
+        // console.log(`fetcarray${i}`,fetcarray )
+        relatedarray.push(fetcarray[i]);
+    
+        // console.log(`ass${i}`,fetcarray[i])
+      }
+    
+      setProduct(relatedarray)
+      
+      }
+      else{
         const array = await axios.get(item.link + "&_embed");
         const fetcarray = array.data;
      
@@ -265,8 +283,27 @@ useFocusEffect(
     if (sort) {
       filter.sort = sort;
       setFilter(filter);
-      loadData(filter);
+      console.log('asasa',filter.sort.lang_key);
+    if(filter.sort.langKey == 'comment_count_desc')
+    {
+      onRefresh()
+           product.sort((a, b) => (a._views<b._views) ? 1 : -1)
+       setProduct(product)
     }
+    else if(filter.sort.langKey === 'post_date_asc'){
+      onRefresh()
+      product.sort((a, b) => ((new Date(a.date).getTime() / 1000))> ((new Date(b.date).getTime() / 1000)) ? 1 : -1)
+     setProduct(product)
+    }
+    else if(filter.sort.langKey === 'post_date_desc'){
+      onRefresh()
+      product.sort((a, b) => ((new Date(a.date).getTime() / 1000))< ((new Date(b.date).getTime() / 1000)) ? 1 : -1)
+     setProduct(product)
+    }
+    else{
+      console.log('yimr',filter.sort.langKey)
+    }
+}
   };
 
   /**
@@ -316,8 +353,8 @@ useFocusEffect(
     Utils.enableExperimental();
     if (!mapView) {
       setRegion({
-        latitude: list?.data?.[0].location.latitude,
-        longitude: list?.data?.[0].location.longitude,
+        latitude: product[0].location.latitude,
+        longitude: product[0].location.longitude,
         latitudeDelta: 0.009,
         longitudeDelta: 0.004,
       });
@@ -331,8 +368,8 @@ useFocusEffect(
    * @returns
    */
   const onSelectLocation = (location) => {
-    for (let index = 0; index < list?.data?.length; index++) {
-      const element = list?.data[index];
+    for (let index = 0; index < product.length; index++) {
+      const element = product[index];
       if (
         element.location.latitude == location.latitude &&
         element.location.longitude == location.longitude
@@ -686,7 +723,7 @@ useFocusEffect(
                   location={item.address}
                   phone={item.phone}
                   rate={item._rtcl_average_rating}
-                  status={item.status}
+                  status={item._views}
                   numReviews={item._rtcl_review_count}
                   favorite={isFavorite(item)}
                   onPress={() => onProductDetail(item)}
@@ -762,7 +799,7 @@ useFocusEffect(
                   location={item.address}
                   phone={item.phone}
                   rate={item._rtcl_average_rating}
-                  status={item.status}
+                  status={item.views}
                   numReviews={item.numRate}
                   favorite={isFavorite(item)}
                   style={{
@@ -840,7 +877,7 @@ useFocusEffect(
                   location={item.address}
                   phone={item.phone}
                   rate={item._rtcl_average_rating}
-                  status={item.status}
+                  status={item._views}
                   numReviews={item._rtcl_review_count}
                   favorite={isFavorite(item)}
                   style={{

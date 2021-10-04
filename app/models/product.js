@@ -29,6 +29,7 @@ export default class ProductModel {
     this.feature = json?.featured;
      this.priceMax = json?.price;
     this.link = json?.link;
+    this.view = json?._views
 
  this.imagemedia = typeof json?._embedded["wp:featuredmedia"] === 'undefined'? ' ' : json?._embedded["wp:featuredmedia"]['0']["media_details"]["sizes"]["thumbnail"]["source_url"]
     // this.openTime = json?.opening_hour?.map?.((item) => {

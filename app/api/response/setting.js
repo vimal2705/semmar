@@ -241,7 +241,7 @@ export const getSetting = async ({ params }) => {
         },
         {
           title: "Most Views",
-          field: "comment_count",
+          field: "view",
           lang_key: "comment_count_desc",
           value: "DESC",
         },

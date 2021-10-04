@@ -4,9 +4,11 @@ export default class CategoryModel {
   constructor(json) {
     this.id = json?.id;
     this.cattitle = typeof  json?._embedded === 'undefined' ? '' :json?._embedded.up[0].name;
+    this.location_id = json?.term_id
     this.title = json?.name;
     this.img= json?.img_url;
     this.count = json?.count;
+
     // this.image = json?.image ? new ImageModel(json?.image) : null;
     this.icon = typeof json?._embedded === 'undefined' ? '' :json?._embedded.up[0]._rtcl_icon ;
     this.color = json?.color;

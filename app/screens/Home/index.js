@@ -167,10 +167,10 @@ export default function Home({ navigation }) {
               <Card
                 style={[styles.popularItem, { marginLeft: 15 }]}
                 image={item.img}
-                onPress={() => console.log('aaa', item)}
+                onPress={() => 
                 //   const filter = new FilterModel();
-                //   navigation.navigate("List", { filter });
-                // }}
+           {       navigation.navigate("List", { data:item });
+                }}
               >
                 <Text headline whiteColor semibold>
                   {item.title}
