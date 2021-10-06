@@ -54,7 +54,7 @@ export default function Profile({ navigation }) {
         <ScrollView>
           <View style={styles.contain}>
             <ProfileDetail
-              image={user.image}
+              image={typeof user.image === 'undefined' ? 'https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png' :user.image}
               textFirst={user.name}
               point={user.rate}
               textSecond={user.description}

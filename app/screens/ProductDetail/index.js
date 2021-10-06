@@ -621,17 +621,19 @@ const  image = async (item)  => {
           })}
         </View> */}
       
-        <Text
-          title3
-          semibold
-          style={{
-            paddingHorizontal: 20,
-            paddingVertical: 15,
-          }}
-        >
-          {t("featured")}
-        </Text>
-        {relatedproduct.length != 0 ?
+     {product?.featured === "0" ? null  :relatedproduct.length != 0 ?
+
+     <View>
+     <Text
+     title3
+     semibold
+     style={{
+       paddingHorizontal: 20,
+       paddingVertical: 15,
+     }}
+   >
+     {t("featured")}
+   </Text>
         <FlatList
           contentContainerStyle={{ paddingLeft: 5, paddingRight: 20 }}
           horizontal={true}
@@ -641,7 +643,7 @@ const  image = async (item)  => {
           renderItem={({ item, index }) => (
             <ListItem
               grid
-              image={typeof  item._embedded['wp:featuredmedia'] === "undefined" ?"" :item._embedded['wp:featuredmedia']["0"].media_details.sizes.thumbnail.source_url}
+              image={typeof  item._embedded['wp:featuredmedia'] === "undefined" ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png" :item._embedded['wp:featuredmedia']["0"].media_details.sizes.thumbnail.source_url}
               title={item.title.rendered}
               // subtitle={item.title}
               location={item.address}
@@ -659,7 +661,8 @@ const  image = async (item)  => {
               }}
             />
           )}
-        />:null}
+        />
+        </View>:null}
         <Text
           title3
           semibold
@@ -676,7 +679,7 @@ const  image = async (item)  => {
               <ListItem
                 key={item.id.toString()}
                 small
-                image={typeof  item._embedded['wp:featuredmedia'] === "undefined" ?"" :item._embedded['wp:featuredmedia']["0"].media_details.sizes.thumbnail.source_url}
+                image={typeof  item._embedded['wp:featuredmedia'] === "undefined" ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png" :item._embedded['wp:featuredmedia']["0"].media_details.sizes.thumbnail.source_url}
                 title={item.title.rendered}
                 // subtitle={item.category?.title}
                 rate={item._rtcl_average_rating}

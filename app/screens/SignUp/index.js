@@ -5,6 +5,8 @@ import { Header, SafeAreaView, Icon, Button, TextInput } from "@components";
 import styles from "./styles";
 import * as api from "@api";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+import syncStorage from "sync-storage";
 
 export default function SignUp({ navigation }) {
   const { colors } = useTheme();
@@ -37,25 +39,64 @@ export default function SignUp({ navigation }) {
       });
     } else {
       setLoading(true);
-      try {
-        const params = {
-          username,
-          password,
-          email,
-        };
-        const response = await api.signUp(params);
+    
+    
+  const log = await axios.post(
+    `http://semmsar.com/api/get_nonce/?controller=user&method=register`
+  );
+  const array = log.data;
+  console.log('nonce',array);
+syncStorage.set('noncevalue',array.nonce)
+const nonce = syncStorage.get('noncevalue')
+   var bodyFormData = new FormData();
+    bodyFormData.append("insecure", "cool");
+  
+
+  const dataresponse = []
+    axios({
+      url: `http://semmsar.com/api/user/register?username=${username}&email=${email}&nonce=${nonce}&display_name=${username}&notify=both&user_pass=${password}&insecure=cool`,
+      method: 'POST',
+      data: bodyFormData,
+
+    })
+      .then(function (response) {
+        console.log("response :", response.data);
+        
+        
+        // setMsg(JSON.stringify( response.data.user))
+
+ 
+        if ( response.data.error === 'Username already exists.' || response.data.error === 'E-mail address is already in use.') { 
+        
+          
         Alert.alert({
-          type: "success",
           title: t("sign_up"),
-          message: t("register_success"),
-          action: [{ onPress: () => navigation.goBack() }],
+          message:response.data.error,
         });
-      } catch (error) {
-        Alert.alert({
-          title: t("sign_up"),
-          message: error.data?.code ?? error.message,
-        });
-      }
+        } else {
+         console.log('aaassas',response.data);
+              Alert.alert({
+      type: "success",
+      title: t("sign_up"),
+      message: t("register_success"),
+      action: [{ onPress: () => navigation.goBack() }],
+    });
+        }
+             
+       
+      })
+      .catch(function (error) {
+        console.log("error from image :",error);
+   
+
+      })
+
+      
+    console.log('dataaa',dataresponse);
+
+           
+
+    
       setLoading(false);
     }
   };

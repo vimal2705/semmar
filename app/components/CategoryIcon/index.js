@@ -35,7 +35,7 @@ export default function CategoryIcon(props) {
       onPress={onPress}
       activeOpacity={0.9}
     >
-      <View style={[styles.iconContent, { backgroundColor: color }]}>
+      <View style={[styles.iconContent, { backgroundColor: "#808080" }]}>
         <Icon name={icon} size={32} color={BaseColor.whiteColor} solid />
       </View>
       <View style={{ padding: 10, flex: 1 }}>

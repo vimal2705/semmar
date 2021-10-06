@@ -51,4 +51,9 @@ export default StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
+  touchable:{
+    borderRadius:15,
+    borderWidth:1,
+    borderColor:BaseColor.navyBlue
+  }
 });

@@ -21,6 +21,8 @@ import { userSelect } from "@selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { authActions } from "@actions";
+import axios from "axios";
+import syncStorage from "sync-storage";
 
 export default function ProfileEdit({ navigation }) {
   const { colors } = useTheme();
@@ -31,7 +33,7 @@ export default function ProfileEdit({ navigation }) {
     ios: 0,
     android: 20,
   });
-
+  const [Msg, setMsg] = useState('')
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [website, setWebsite] = useState(user.link);
@@ -48,8 +50,16 @@ export default function ProfileEdit({ navigation }) {
    * on Update Profile
    *
    */
+  const cookie = syncStorage.get('result')
+
   const onUpdate = () => {
+    console.log('asas',cookie);
+
+    var bodyFormData = new FormData();
+    bodyFormData.append("insecure", "cool");
+
     if (name == "" || email == "" || website == "" || information == "") {
+    
       setSuccess({
         ...success,
         name: name != "" ? true : false,
@@ -59,24 +69,51 @@ export default function ProfileEdit({ navigation }) {
       });
       return;
     }
-    const params = {
-      name,
-      email,
-      url: website,
-      description: information,
-    };
-    setLoading(true);
-    dispatch(
-      authActions.onEditProfile(params, (response) => {
+    axios({
+      url: `http://semmsar.com/api/user/xprofile_update/?cookie=${cookie}&username=${name}&display_name=${name}&insecure=cool`,
+      method: 'POST',
+      data: bodyFormData,
+
+    })
+      .then(function (response) {
+        setLoading(true);
+        console.log("response :", response.data);
+        
+        
+       
         Alert.alert({
-          type: "success",
           title: t("edit_profile"),
-          message: t("update_success"),
-          action: [{ onPress: () => navigation.goBack() }],
+          message:response.data.error,
         });
-        setLoading(false);
+  
+      setLoading(false);
       })
-    );
+      .catch(function (error) {
+        console.log("error from image :",error);
+       
+      })
+    // const params = {
+    //   name,
+    //   email,
+    //   url: website,
+    //   description: information,
+    // };
+    // setLoading(true);
+    // dispatch(
+    //   authActions.onEditProfile(params, (response) => {
+    //     Alert.alert({
+         
+    //       title: t("edit_profile"),
+    //         message:Msg,
+         
+    //       // type: "success",
+    //       // title: t("edit_profile"),
+    //       // message: t("update_success"),
+    //       // action: [{ onPress: () => navigation.goBack() }],
+    //     });
+    //     setLoading(false);
+    //   })
+    // );
   };
 
   return (

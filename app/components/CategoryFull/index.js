@@ -41,10 +41,10 @@ export default function CategoryFull(props) {
         style={{ width: "100%", height: "100%", borderRadius: 8 }}
       /> */}
       <View style={styles.contentIcon}>
-        {/* <View style={[styles.iconCircle, { backgroundColor: color }]}>
+        <View style={[styles.iconCircle, { backgroundColor: color }]}>
           <Icon name={icon} size={18} color={BaseColor.whiteColor} />
-        </View> */}
-        <View style={{ paddingLeft: 10 ,backgroundColor:"#111"}}>
+        </View>
+        <View style={{ paddingLeft: 10 ,backgroundColor:"#808080"}}>
           <Text headline bold blackColor >
             {title}
           </Text>
@@ -61,7 +61,7 @@ CategoryFull.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   loading: PropTypes.bool,
   // image: PropTypes.node.isRequired,
-  // icon: PropTypes.node.isRequired,
+  icon: PropTypes.node.isRequired,
   color: PropTypes.string,
   title: PropTypes.string,
   subtitle: PropTypes.string,

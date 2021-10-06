@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { View, TouchableOpacity, KeyboardAvoidingView, Platform, Alert, } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { BaseStyle, useTheme } from "@config";
@@ -7,6 +7,8 @@ import styles from "./styles";
 import { useTranslation } from "react-i18next";
 import { authActions } from "@actions";
 import { designSelect } from "@selectors";
+import axios from "axios";
+import SyncStorage from "sync-storage";
 
 export default function SignIn({ navigation, route }) {
   const { colors } = useTheme();
@@ -19,17 +21,27 @@ export default function SignIn({ navigation, route }) {
   const [password, setPassword] = useState(null);
   const [success, setSuccess] = useState({ id: true, password: true });
 
+
   /**
    * call when action onLogin
    */
-  const onLogin = () => {
+
+  
+  const onLogin = async() => {
+
+  // useEffect(() => {
+  //   const result = SyncStorage.get("cookie");
+  //   setMsg(typeof result);
+  // }, [])
+    
+ 
     if (id == "" || password == "") {
       setSuccess({
         ...success,
         id: false,
         password: false,
       });
-      return;
+      return; 
     }
     const params = {
       username: id,
@@ -84,7 +96,7 @@ export default function SignIn({ navigation, route }) {
               secureTextEntry={true}
               success={success.password} value={password}
             />
-
+            
             <Button style={{ marginTop: 20 }} full loading={loading} onPress={onLogin}>{t("sign_in")}</Button>
 
             <TouchableOpacity onPress={() => navigation.navigate("ResetPassword")}>

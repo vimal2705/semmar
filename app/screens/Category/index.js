@@ -99,7 +99,7 @@ export default function Category({ navigation }) {
             title={item.cattitle}
             subtitle={item.count.toString()}
             onPress={() => {
-              const filter = new FilterModel();
+              // const filter = new FilterModel();
               navigation.navigate("List", { data:item  });
             }}
             style={[styles.itemIcon, { borderColor: colors.border }]}
@@ -115,7 +115,7 @@ export default function Category({ navigation }) {
 
             subtitle={item.count.toString()}
             onPress={() => {
-              const filter = new FilterModel();
+              // const filter = new FilterModel();
               navigation.navigate("List", {data:item });
             }}
             style={{

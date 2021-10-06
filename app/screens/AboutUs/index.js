@@ -122,7 +122,7 @@ export default function AboutUs({ navigation }) {
             keyExtractor={(item, index) => "ourTeam" + index}
             renderItem={({ item, index }) => (
               <Card
-                image={item.image}
+                image={'https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png'}
                 onPress={() => navigation.navigate(item.screen)}
                 style={{
                   flex: 1,

@@ -121,44 +121,82 @@ console.log(['maut',filter])
   // filter,route.params?.loader
   const fetch = async (item) => {
 
-    console.log('all',item.location_id)
-    if (typeof item.category === 'undefined' && typeof item.location === 'undefined' ) {
-      
-          const array = await axios.get(item.link + "&_embed");
-    const fetcarray = array.data;
-    console.log('asslen',item.category)
-    const relatedarray = [];
-    for (let i = 0; i < fetcarray.length; i++) {
-      // console.log(`fetcarray${i}`,fetcarray )
-      relatedarray.push(fetcarray[i]);
+    console.log('all',item)
+    if (typeof item.category === 'undefined' && typeof item.location === 'undefined'  ) {
+      if(typeof item.location_id === 'undefined')
+      {
 
-
-    }
-
-    setProduct(relatedarray);
-    setLoading(false)
+        const array = await axios.get(item.link + "&_embed");
+        const fetcarray = array.data;
+        //  console.log('asslen',item.category)
+        const relatedarray = [];
+        for (let i = 0; i < fetcarray.length; i++) {
+          // console.log(`fetcarray${i}`,fetcarray )
+          relatedarray.push(fetcarray[i]);
+    
+    
+        }
+    
+        setProduct(relatedarray);
+        setLoading(false)
+      }
+      else{
+         const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location_id}&_embed`);
+        const fetcarray = array.data;
+        //  console.log('asslen',item.category)
+        const relatedarray = [];
+        for (let i = 0; i < fetcarray.length; i++) {
+          // console.log(`fetcarray${i}`,fetcarray )
+          relatedarray.push(fetcarray[i]);
+    
+    
+        }
+    
+        setProduct(relatedarray);
+        setLoading(false)
+      }
+         
   }else if(item.category.length === 0 &&  item.location.length === 0 ){
 
-    const array = await axios.get(item.link + "&_embed");
-    const fetcarray = array.data;
-    console.log('asslen',item.category)
-    const relatedarray = [];
-    for (let i = 0; i < fetcarray.length; i++) {
-      // console.log(`fetcarray${i}`,fetcarray )
-      relatedarray.push(fetcarray[i]);
+    if(typeof item.location_id === 'undefined')
+    {
 
-
+      const array = await axios.get(item.link + "&_embed");
+      const fetcarray = array.data;
+      //  console.log('asslen',item.category)
+      const relatedarray = [];
+      for (let i = 0; i < fetcarray.length; i++) {
+        // console.log(`fetcarray${i}`,fetcarray )
+        relatedarray.push(fetcarray[i]);
+  
+  
+      }
+  
+      setProduct(relatedarray);
+      setLoading(false)
     }
-
-    setProduct(relatedarray);
-    setLoading(false)
+    else{
+       const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location_id}&_embed`);
+      const fetcarray = array.data;
+      //  console.log('asslen',item.category)
+      const relatedarray = [];
+      for (let i = 0; i < fetcarray.length; i++) {
+        // console.log(`fetcarray${i}`,fetcarray )
+        relatedarray.push(fetcarray[i]);
+  
+  
+      }
+  
+      setProduct(relatedarray);
+      setLoading(false)
+    }
   }
   else if(typeof item.location === 'undefined' || item.location.length === 0){
     const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_category=${item.category[0].parent_id}&_embed`);
         // const array = await axios.get(item.link + "&_embed");
-        console.log('cat',item);
+        // console.log('cat',item);
         const fetcarray = array.data;
-        console.log('cat',item.category[0].parent_id);
+        // console.log('cat',item.category[0].parent_id);
         const relatedarray = [];
         for (let i = 0; i < fetcarray.length; i++) {
           // console.log(`fetcarray${i}`,fetcarray )
@@ -168,13 +206,14 @@ console.log(['maut',filter])
         }
       
         setProduct(relatedarray);
+        setLoading(false)
       
   }else if(typeof item.category === 'undefined' || item.category.length === 0 ){
   const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location.term_id}&_embed`);
         // const array = await axios.get(item.link + "&_embed");
-        console.log('cat',item.location.term_id);
+        // console.log('cat',item.location.term_id);
         const link = `http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location.term_id}&_embed`
-        console.log('cat',link);
+        // console.log('cat',link);
         const fetcarray = array.data;
         
         const relatedarray = [];
@@ -186,6 +225,7 @@ console.log(['maut',filter])
         }
       
         setProduct(relatedarray)
+        setLoading(false)
       }
         else if(typeof item.category !== 'undefined' && typeof item.location !== 'undefined' )
     {
@@ -202,43 +242,48 @@ console.log(['maut',filter])
       }
     
       setProduct(relatedarray);
+      setLoading(false)
     
       // alert(route.param?.data);
     }
-   else if(typeof item.id === 'undefined' )
+   else 
     {
       
-      const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location_id}&_embed`);
-      // const array = await axios.get(item.link + "&_embed");
-      console.log('cat',item.location_id);
- 
-      const fetcarray = array.data;
-      
-      const relatedarray = [];
-      for (let i = 0; i < fetcarray.length; i++) {
-        // console.log(`fetcarray${i}`,fetcarray )
-        relatedarray.push(fetcarray[i]);
-    
-        // console.log(`ass${i}`,fetcarray[i])
-      }
-    
-      setProduct(relatedarray)
-      
-      }
-      else{
+      if(typeof item.location_id === 'undefined')
+      {
+  
         const array = await axios.get(item.link + "&_embed");
         const fetcarray = array.data;
-     
+        //  console.log('asslen',item.category)
         const relatedarray = [];
         for (let i = 0; i < fetcarray.length; i++) {
           // console.log(`fetcarray${i}`,fetcarray )
           relatedarray.push(fetcarray[i]);
     
-          // console.log(`ass${i}`,fetcarray[i])
+    
         }
     
         setProduct(relatedarray);
+        setLoading(false)
       }
+      else{
+         const array = await axios.get(`http://semmsar.com/wp-json/wp/v2/rtcl_listing/?rtcl_location=${item.location_id}&_embed`);
+        const fetcarray = array.data;
+        //  console.log('asslen',item.category)
+        const relatedarray = [];
+        for (let i = 0; i < fetcarray.length; i++) {
+          // console.log(`fetcarray${i}`,fetcarray )
+          relatedarray.push(fetcarray[i]);
+    
+    
+        }
+    
+        setProduct(relatedarray);
+        setLoading(false)
+      }
+      
+      }
+       
   } 
 
   /**
@@ -287,7 +332,7 @@ console.log(['maut',filter])
     if(filter.sort.langKey == 'comment_count_desc')
     {
       onRefresh()
-           product.sort((a, b) => (a._views<b._views) ? 1 : -1)
+           product.sort((a, b) => (a.status<b.status) ? 1 : -1)
        setProduct(product)
     }
     else if(filter.sort.langKey === 'post_date_asc'){
@@ -301,7 +346,8 @@ console.log(['maut',filter])
      setProduct(product)
     }
     else{
-      console.log('yimr',filter.sort.langKey)
+     
+      loadData(filter)
     }
 }
   };
@@ -350,11 +396,12 @@ console.log(['maut',filter])
    *
    */
   const onChangeMapView = () => {
+   
     Utils.enableExperimental();
     if (!mapView) {
       setRegion({
-        latitude: product[0].location.latitude,
-        longitude: product[0].location.longitude,
+        latitude:  parseFloat(product[0].latitude),
+        longitude: parseFloat(product[0].longitude),
         latitudeDelta: 0.009,
         longitudeDelta: 0.004,
       });
@@ -371,8 +418,8 @@ console.log(['maut',filter])
     for (let index = 0; index < product.length; index++) {
       const element = product[index];
       if (
-        element.location.latitude == location.latitude &&
-        element.location.longitude == location.longitude
+        element.latitude == location.latitude &&
+        element.longitude == location.longitude
       ) {
         sliderRef.current.snapToItem(index);
         return;
@@ -714,7 +761,7 @@ console.log(['maut',filter])
                   block
                   image={
                     typeof item._embedded["wp:featuredmedia"] === "undefined"
-                      ? ""
+                      ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png"
                       : item._embedded["wp:featuredmedia"]["0"].media_details
                           .sizes.thumbnail.source_url
                   }
@@ -723,7 +770,7 @@ console.log(['maut',filter])
                   location={item.address}
                   phone={item.phone}
                   rate={item._rtcl_average_rating}
-                  status={item._views}
+                  status={item.status}
                   numReviews={item._rtcl_review_count}
                   favorite={isFavorite(item)}
                   onPress={() => onProductDetail(item)}
@@ -790,7 +837,7 @@ console.log(['maut',filter])
                   grid
                   image={
                     typeof item._embedded["wp:featuredmedia"] === "undefined"
-                      ? ""
+                      ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png"
                       : item._embedded["wp:featuredmedia"]["0"].media_details
                           .sizes.thumbnail.source_url
                   }
@@ -868,7 +915,7 @@ console.log(['maut',filter])
                   list
                   image={
                     typeof item._embedded["wp:featuredmedia"] === "undefined"
-                      ? ""
+                      ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png"
                       : item._embedded["wp:featuredmedia"]["0"].media_details
                           .sizes.thumbnail.source_url
                   }
@@ -877,7 +924,7 @@ console.log(['maut',filter])
                   location={item.address}
                   phone={item.phone}
                   rate={item._rtcl_average_rating}
-                  status={item._views}
+                  status={item.status}
                   numReviews={item._rtcl_review_count}
                   favorite={isFavorite(item)}
                   style={{
@@ -943,7 +990,7 @@ console.log(['maut',filter])
                   block
                   image={
                     typeof item._embedded["wp:featuredmedia"] === "undefined"
-                      ? ""
+                      ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png"
                       : item._embedded["wp:featuredmedia"]["0"].media_details
                           .sizes.thumbnail.source_url
                   }
@@ -988,14 +1035,14 @@ console.log(['maut',filter])
     return (
       <View style={{ flex: 1 }}>
         <MapView provider={PROVIDER_GOOGLE} style={styles.map} region={region}>
-          {list.data?.map?.((item, index) => {
+          {product.map?.((item, index) => {
             return (
               <Marker
                 onPress={(e) => onSelectLocation(e.nativeEvent.coordinate)}
                 key={item.id}
                 coordinate={{
-                  latitude: item.location?.latitude,
-                  longitude: item.location.longitude,
+                  latitude:  parseFloat(item.latitude),
+                  longitude: parseFloat(item.longitude),
                 }}
               >
                 <View
@@ -1023,13 +1070,13 @@ console.log(['maut',filter])
         <View style={{ position: "absolute", bottom: 0, overflow: "visible" }}>
           <Carousel
             ref={sliderRef}
-            data={list.data ?? []}
+            data={product ?? []}
             renderItem={({ item, index }) => (
               <ListItem
                 small
                 image={
                   typeof item._embedded["wp:featuredmedia"] === "undefined"
-                    ? ""
+                    ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png"
                     : item._embedded["wp:featuredmedia"]["0"].media_details
                         .sizes.thumbnail.source_url
                 }
@@ -1069,8 +1116,8 @@ console.log(['maut',filter])
               setRegion({
                 latitudeDelta: 0.009,
                 longitudeDelta: 0.004,
-                latitude: list.data?.[index]?.location?.latitude,
-                longitude: list.data?.[index]?.location?.longitude,
+                latitude: parseFloat(product[index]?.latitude),
+                longitude:parseFloat( product[index]?.longitude),
               });
             }}
           />
@@ -1086,7 +1133,7 @@ console.log(['maut',filter])
     if (loading) {
       return renderLoading();
     }
-    if (list.data?.length == 0) {
+    if (product.length == 0) {
       return (
         <View style={styles.centerView}>
           <View style={{ alignItems: "center" }}>

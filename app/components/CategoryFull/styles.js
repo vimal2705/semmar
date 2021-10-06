@@ -7,7 +7,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     height: Utils.scaleWithPixel(115),
     borderRadius: 8,
-    backgroundColor:"#111"
+    backgroundColor:"#808080"
   },
   contentIcon: {
     position: "absolute",

@@ -103,7 +103,7 @@ export default function Home({ navigation }) {
                 <View
                   style={[
                     styles.serviceCircleIcon,
-                    { backgroundColor: "blue" },
+                    { backgroundColor: "#808080" },
                   ]}
                 >
                   <Icon
@@ -166,11 +166,13 @@ export default function Home({ navigation }) {
             return (
               <Card
                 style={[styles.popularItem, { marginLeft: 15 }]}
-                image={item.img}
+                image={item.img === null ? 'https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png' :item.img}
                 onPress={() => 
                 //   const filter = new FilterModel();
-           {       navigation.navigate("List", { data:item });
-                }}
+           {   
+                 navigation.navigate("List", { data:item });
+             
+              }}
               >
                 <Text headline whiteColor semibold>
                   {item.title}
@@ -224,6 +226,7 @@ export default function Home({ navigation }) {
               navigation.navigate("ProductDetail", {
                 item: item,
               });
+             
             }}
           />
         );

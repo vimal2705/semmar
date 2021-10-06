@@ -29,8 +29,8 @@ export default function SearchHistory({ navigation }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
   const wishlist = useSelector(wishlistSelect);
-  const search = collection
-  const [history, setHistory] = useState(search);
+  // const search = collection
+  const [history, setHistory] = useState();
   const [result, setResult] = useState([]);
   const [showResult, setShowResult] = useState(false);
   const [keyword, setKeyword] = useState("");
@@ -39,6 +39,7 @@ export default function SearchHistory({ navigation }) {
 
   useEffect(() => {
   searchproduct()
+ 
   }, [])
 
   /**
@@ -49,11 +50,17 @@ export default function SearchHistory({ navigation }) {
   const searchproduct = async() => {
     const recent = await axios.get('http://semmsar.com/wp-json/wp/v2/rtcl_listing?_embed');
     const recent_post = recent.data
+    const array = []
+
   for (let i = 0; i < recent_post.length; i++) {
-    console.log('assas',recent_post[i].id);
-    
+    console.log('assas',recent_post[i]);
+    const details = recent_post[i];
+    array.push(details)
   }
-    setcollection(recent_post)
+    setcollection(array)
+    console.log('collection',array);
+ 
+   
     
    
   }
@@ -72,8 +79,8 @@ export default function SearchHistory({ navigation }) {
       clearTimeout(timeout);
       timeout = setTimeout(() => {
         setResult(
-          search.filter((item) => {
-            return item.title.toUpperCase().includes(keyword.toUpperCase());
+          collection.filter((item) => {
+            return item.title.rendered.toUpperCase().includes(keyword.toUpperCase());
           })
         );
         setLoading(false);
@@ -115,14 +122,14 @@ export default function SearchHistory({ navigation }) {
           renderItem={({ item, index }) => (
             <ListItem
               small
-              // image={item.image?.full}
+              image={typeof item._embedded["wp:featuredmedia"] === 'undefined'? 'https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png' : item._embedded["wp:featuredmedia"]['0']["media_details"]["sizes"]["thumbnail"]["source_url"]}
               title={item.title.rendered}
-              // subtitle={item.category?.title}
-              // location={item.address}
-              // phone={item.phone}
-              // rate={item.rate}
-              // status={item.status}
-              // numReviews={item.numRate}
+              subtitle={item.category?.title}
+              location={item.address}
+              phone={item.phone}
+              rate={item.rate}
+              status={item.status}
+              numReviews={item.numRate}
               favorite={isFavorite(item)}
               style={{
                 marginBottom: 15,

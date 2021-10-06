@@ -7,6 +7,7 @@ import {
   Icon,
   Text,
   Tag,
+  Button,
   RangeSlider,
 } from "@components";
 import * as Utils from "@utils";
@@ -33,7 +34,7 @@ export default function Filter({ navigation, route }) {
   const [scrollEnabled, setScrollEnabled] = useState(true);
   const [loader, setloader] = useState(false)
 
-
+console.log('as',location,selectedCategory);
   /**
    * on Apply filter
    *
@@ -96,11 +97,25 @@ else{
    * @param {*} select
    */
   const onSelectCategory = (select) => {
-    const exist = selectedCategory.some((item) => item.id === select.id);
-    if (exist) {
-      setCategory(selectedCategory.filter((item) => item.id != select.id));
-    } else {
+    // const exist = selectedCategory.some((item) => item.id === select.id);
+    // if (exist) {
+    //   setCategory(selectedCategory.filter((item) => item.id != select.id));
+    // } 
+    // else 
+    if(selectedCategory.length === 0)
+    {
+ 
       setCategory(selectedCategory.concat(select));
+    }
+    else{
+
+      selectedCategory.pop()
+      setCategory(selectedCategory.concat(select));
+      //  selectedCategory.push(select)
+      //  setCategory(selectedCategory)
+      // console.log('ooo',select.id,selectedCategory.length);
+      // console.log('iad',selectedCategory[0]);
+    
     }
   };
 
@@ -147,7 +162,9 @@ else{
             </Text>
             <View style={styles.wrapContent}>
               {setting?.categories?.map?.((item) => {
-                const selected = selectedCategory.some((i) => i.id === item.id);
+              
+                const selected =  selectedCategory.some((i) => i.id === item.id)
+             
                 return (
                   <Tag
                     primary={selected}
@@ -243,14 +260,37 @@ else{
               </Text>
             </View> */}
           </View>
-          <View style={{ alignItems:"center"}}><TouchableOpacity
-          style={selectedCategory.length === 0 ?  { borderWidth:1,borderRadius:15,padding:4,paddingHorizontal:15}: { borderWidth:0,borderRadius:15,padding:4,paddingHorizontal:15}}
+         
+          <View style={{ alignItems:"center"}} >
+            {
+         ( typeof selectedCategory === 'undefined'|| selectedCategory.length === 0  )&&
+              (typeof location === 'undefined' || typeof location === 'undefined' ? typeof location === 'undefined' : location.length === 0 ) ?  <Button
+          round
+         outline
+          style={{ marginTop: 10, marginBottom: 20 ,height:30}}
           onPress={() =>{
             setCategory([])
             setLocation([])
-            console.log('aas',selectedCategory);
+            console.log('aas',selectedCategory,location);
           }}
-          ><Text>clear</Text></TouchableOpacity></View>
+        >
+          {t("clear")}
+        </Button> 
+        :
+          <Button
+          round
+        
+          style={{ marginTop: 10, marginBottom: 20 ,height:30}}
+          onPress={() =>{
+            setCategory([])
+            setLocation([])
+            console.log('aas',selectedCategory,location);
+          }}
+        >
+          {t("clear")}
+        </Button>
+}
+           </View>
           {/* <Text
             headline
             semibold

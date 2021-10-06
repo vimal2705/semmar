@@ -26,7 +26,7 @@ export default function Wishlist({ navigation }) {
   const [refreshing, setRefresh] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [actionItem, setActionItem] = useState(null);
-
+console.log('wish',wishlist.list);
   /**
    * Reload wishlist
    */
@@ -139,11 +139,11 @@ export default function Wishlist({ navigation }) {
           renderItem={({ item, index }) => (
             <ListItem
               small
-              enableAction={true}
-              image={item.image?.full}
-              title={item.title}
-              subtitle={item.category?.title}
-              rate={item.rate}
+              // enableAction={true}
+              // image={item.image?.full}
+              // title={item.title}
+              // subtitle={item.category?.title}
+              // rate={item.rate}
               style={{ marginBottom: 15 }}
               onPress={() =>
                 navigation.navigate("ProductDetail", {

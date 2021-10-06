@@ -28,7 +28,7 @@ export default function ProfileDetail(props) {
     >
       <View style={[styles.contentLeft, styleLeft]}>
         <View>
-          <Image source={image} style={[styles.thumb, styleThumb]} />
+          <Image source={{uri:image}} style={[styles.thumb, styleThumb]} />
           <View
             style={[styles.point, { backgroundColor: colors.primaryLight }]}
           >
@@ -72,7 +72,7 @@ export default function ProfileDetail(props) {
 
 ProfileDetail.propTypes = {
   style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  image: PropTypes.node.isRequired,
+  image: PropTypes.string,
   textFirst: PropTypes.string,
   point: PropTypes.number,
   textSecond: PropTypes.string,
