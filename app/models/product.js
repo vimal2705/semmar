@@ -18,6 +18,7 @@ export default class ProductModel {
     this.numRate = json?._rtcl_review_count;
     this.rateText = json?.post_status;
     this.status = json?.status;
+    this.subtitle = typeof json._embedded["wp:term"]  === 'undefined'? 'helo' : json._embedded["wp:term"][0][0].name
     this.favorite = json?.wishlist;
     this.address = json?.address;
     this.phone = json?.phone;

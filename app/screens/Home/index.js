@@ -107,7 +107,7 @@ export default function Home({ navigation }) {
                   ]}
                 >
                   <Icon
-                    name={Utils.iconConvert(item.icon)}
+                    name={item.icon === '' ? Utils.iconConvert('question') :Utils.iconConvert(item.icon)}
                     size={20}
                     color={BaseColor.whiteColor}
                     solid
@@ -163,7 +163,10 @@ export default function Home({ navigation }) {
           data={home.locations}
           keyExtractor={(item, index) => `locations ${index}`}
           renderItem={({ item, index }) => {
+          
             return (
+          
+                
               <Card
                 style={[styles.popularItem, { marginLeft: 15 }]}
                 image={item.img === null ? 'https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png' :item.img}
@@ -219,7 +222,7 @@ export default function Home({ navigation }) {
             key={`recent${item.id}`}
             image={item.imagemedia}
             title={item.title}
-            subtitle={item.category?.title}
+            subtitle={item.subtitle}
             rate={item.rate}
             style={{ marginBottom: 15 }}
             onPress={() => {

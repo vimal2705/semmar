@@ -85,7 +85,7 @@ console.log('wish',wishlist.list);
           >
             <Icon name="times" size={12} color={colors.text} />
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               onShare(actionItem);
             }}
@@ -98,7 +98,7 @@ console.log('wish',wishlist.list);
             <Text body2 semibold style={{ marginLeft: 15 }}>
               {t("share")}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={[styles.contentActionModalBottom]}
             onPress={() => {
@@ -139,17 +139,18 @@ console.log('wish',wishlist.list);
           renderItem={({ item, index }) => (
             <ListItem
               small
-              // enableAction={true}
-              // image={item.image?.full}
-              // title={item.title}
-              // subtitle={item.category?.title}
-              // rate={item.rate}
+              enableAction={true}
+               image={typeof item._embedded["wp:featuredmedia"] === 'undefined'? 'https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png' : item._embedded["wp:featuredmedia"]['0']["media_details"]["sizes"]["thumbnail"]["source_url"]}
+              title={item.title.rendered}
+              subtitle={typeof item._embedded["wp:term"]  === 'undefined'? '':item._embedded["wp:term"][0][0].name }
+              rate={item._rtcl_average_rating}
               style={{ marginBottom: 15 }}
               onPress={() =>
                 navigation.navigate("ProductDetail", {
                   item: item,
                 })
               }
+           
               omPressMore={() => {
                 setActionItem(item);
                 setModalVisible(true);
@@ -159,7 +160,7 @@ console.log('wish',wishlist.list);
         />
       );
     }
-    if (wishlist.list?.length == 0) {
+    if ( typeof  wishlist.list === 'undefined' || typeof  wishlist.list === 'undefined' ? wishlist.list = [] : wishlist.list.length === 0) {
       return (
         <View style={styles.loadingContent}>
           <View style={{ alignItems: "center" }}>

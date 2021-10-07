@@ -94,13 +94,14 @@ export default function Category({ navigation }) {
       case "icon":
         return (
           <CategoryIcon
-            icon={Utils.iconConvert(item.icon)}
-            color={item.color}
+            icon={item.icon === '' ? Utils.iconConvert('question') :Utils.iconConvert(item.icon)}
+            // color={typeof item.color === undefine }
             title={item.cattitle}
             subtitle={item.count.toString()}
             onPress={() => {
               // const filter = new FilterModel();
               navigation.navigate("List", { data:item  });
+  
             }}
             style={[styles.itemIcon, { borderColor: colors.border }]}
           />
@@ -110,7 +111,7 @@ export default function Category({ navigation }) {
           <CategoryFull
             // image={item.image?.full}
             color={item.color}
-            icon={Utils.iconConvert(item.icon)}
+            icon={item.icon === '' ? Utils.iconConvert('question') :Utils.iconConvert(item.icon)}
             title={item.cattitle}
 
             subtitle={item.count.toString()}

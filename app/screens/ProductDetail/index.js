@@ -409,7 +409,7 @@ const  image = async (item)  => {
           <View style={styles.lineSpace}>
             <View>
               <Text caption1 grayColor>
-                {product?.category?.title}
+                {product?.subtitle}
               </Text>
               <TouchableOpacity style={styles.rateLine} onPress={onReview}>
                 <Tag rateSmall style={{ marginRight: 5 }} onPress={onReview}>
@@ -528,7 +528,7 @@ const  image = async (item)  => {
           style={[styles.contentDescription, { borderColor: colors.border }]}
         >
           <Text body2 style={{ lineHeight: 20 }}>
-            {product?.description}
+            {product?.description.replace(/(<([^>]+)>)/gi, "")}
           </Text>
           <View
             style={{

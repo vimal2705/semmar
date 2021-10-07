@@ -10,7 +10,7 @@ export default class CategoryModel {
     this.count = json?.count;
 
     // this.image = json?.image ? new ImageModel(json?.image) : null;
-   this.icon = typeof json?._embedded ===  'undefined' ? "":json?._embedded.up[0]._rtcl_icon ;
+   this.icon = typeof json?._embedded ===  'undefined' ? '' :json?._embedded.up[0]._rtcl_icon ;
     this.color =  json?.color;
     this.slug = json?.slug;
     this.type = this.exportType(json?.taxonomy);
@@ -19,7 +19,7 @@ export default class CategoryModel {
     
   }
 
-  exportType(type) {
+  exportType(type) { 
     switch (type) {
       case "listar_feature":
         return "feature";

@@ -117,7 +117,7 @@ console.log(['maut',filter])
   
       // // Return the function to unsubscribe from the event so it gets removed on unmount
       // return unsubscribe;
-  }, [route.param?.check]);
+  }, [navigation]);
   // filter,route.params?.loader
   const fetch = async (item) => {
 

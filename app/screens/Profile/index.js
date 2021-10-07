@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { authActions } from "@actions";
 import { userSelect } from "@selectors";
+import SyncStorage from "sync-storage"
 
 export default function Profile({ navigation }) {
   const { colors } = useTheme();
@@ -23,11 +24,12 @@ export default function Profile({ navigation }) {
   const user = useSelector(userSelect);
 
   const [loading, setLoading] = useState(false);
-
+  const result = SyncStorage.get("cookie");
   /**
    * on Logout
    *
    */
+  console.log('asdadf',user);
   const onLogout = () => {
     setLoading(true);
     dispatch(authActions.onLogout());
@@ -57,7 +59,7 @@ export default function Profile({ navigation }) {
               image={typeof user.image === 'undefined' ? 'https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png' :user.image}
               textFirst={user.name}
               point={user.rate}
-              textSecond={user.description}
+              textSecond={ user.description === "" ? 'This is a user description ' : user.description}
               textThird={user.email}
             />
             <ProfilePerformance data={user.value} style={{ marginTop: 20 }} />
@@ -157,6 +159,7 @@ export default function Profile({ navigation }) {
                 enableRTL={true}
               />
             </TouchableOpacity>
+            
           </View>
         </ScrollView>
         <View style={{ paddingHorizontal: 20, paddingVertical: 15 }}>
