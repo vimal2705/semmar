@@ -17,7 +17,7 @@ function* fetchMessenger(action) {
     }
     action.callback?.(response);
   } catch (error) {
-    console.log("fetchMessenger", error);
+    // console.log("fetchMessenger", error);
     action.callback?.(error.response ?? error.message);
   }
 }

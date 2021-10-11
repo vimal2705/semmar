@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { View, KeyboardAvoidingView, Platform } from "react-native";
+import { View, KeyboardAvoidingView, Platform, Alert ,} from "react-native";
 import { BaseStyle, useTheme } from "@config";
 import { Header, SafeAreaView, Icon, TextInput, Button } from "@components";
 import { useTranslation } from "react-i18next";
-
+import axios from "axios";
 export default function ResetPassword({ navigation }) {
   const { colors } = useTheme();
   const { t } = useTranslation();
@@ -18,7 +18,11 @@ export default function ResetPassword({ navigation }) {
   /**
    * call when action reset pass
    */
-  const onReset = () => {
+  const onReset = async () => {
+
+    var bodyFormData = new FormData();
+    bodyFormData.append("insecure", "cool");
+
     if (email == "") {
       setSuccess({
         ...success,
@@ -26,6 +30,24 @@ export default function ResetPassword({ navigation }) {
       });
     } else {
       setLoading(true);
+     await axios({
+        url: `http://semmsar.com/api/user/retrieve_password/?insecure=cool&user_login=${email}`,
+        method: 'POST',
+        data: bodyFormData,
+  
+      })
+        .then(function (response) {
+     
+          console.log("response :", response.data);
+        Alert.alert({
+            title:"forgot password",
+            message:response.data.msg,
+          });
+        setLoading(false);
+        })
+        .catch(function (error) {
+          console.log("error from image :",error);
+        })
       setTimeout(() => {
         setLoading(false);
         navigation.navigate("SignIn");

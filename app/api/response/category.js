@@ -9,10 +9,10 @@ export const getCategory = async ({ params }) => {
   const array = cat.data
   const array_name = []
   for (let i = 0; i < array.length; i++) {
-    console.log(`asd${i}`, array[i]._embedded.up[0].name);
+    // console.log(`asd${i}`, array[i]._embedded.up[0].name);
    array_name.push(array[i].name)
   }
-  console.log('123',array_name);
+  // console.log('123',array_name);
  
   return {
     

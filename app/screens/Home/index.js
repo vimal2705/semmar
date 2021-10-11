@@ -107,7 +107,7 @@ export default function Home({ navigation }) {
                   ]}
                 >
                   <Icon
-                    name={item.icon === '' ? Utils.iconConvert('question') :Utils.iconConvert(item.icon)}
+                    name={item.icon === '' ? Utils.iconConvert('question-thin') :Utils.iconConvert(item.icon)}
                     size={20}
                     color={BaseColor.whiteColor}
                     solid
@@ -169,7 +169,7 @@ export default function Home({ navigation }) {
                 
               <Card
                 style={[styles.popularItem, { marginLeft: 15 }]}
-                image={item.img === null ? 'https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png' :item.img}
+                image={item.img === null ?"https://i.ibb.co/8jYYhnW/image-2021-10-11-T06-08-58-109-Z.png"  :item.img}
                 onPress={() => 
                 //   const filter = new FilterModel();
            {   
@@ -220,7 +220,7 @@ export default function Home({ navigation }) {
           <ListItem
             small
             key={`recent${item.id}`}
-            image={item.imagemedia}
+            image={ item.imagemedia === "undefined" ? 'https://i.ibb.co/8jYYhnW/image-2021-10-11-T06-08-58-109-Z.png' :item.imagemedia}
             title={item.title}
             subtitle={item.subtitle}
             rate={item.rate}
@@ -229,6 +229,7 @@ export default function Home({ navigation }) {
               navigation.navigate("ProductDetail", {
                 item: item,
               });
+    
              
             }}
           />

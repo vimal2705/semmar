@@ -761,9 +761,9 @@ console.log(['maut',filter])
                   block
                   image={
                     typeof item._embedded["wp:featuredmedia"] === "undefined"
-                      ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png"
+                      ? "https://i.ibb.co/8jYYhnW/image-2021-10-11-T06-08-58-109-Z.png"
                       : item._embedded["wp:featuredmedia"]["0"].media_details
-                          .sizes.thumbnail.source_url
+                          .sizes["rtcl-gallery"].source_url
                   }
                   title={item.title.rendered}
                   subtitle={item.category?.title}
@@ -837,7 +837,7 @@ console.log(['maut',filter])
                   grid
                   image={
                     typeof item._embedded["wp:featuredmedia"] === "undefined"
-                      ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png"
+                      ? "https://i.ibb.co/8jYYhnW/image-2021-10-11-T06-08-58-109-Z.png"
                       : item._embedded["wp:featuredmedia"]["0"].media_details
                           .sizes.thumbnail.source_url
                   }
@@ -915,7 +915,7 @@ console.log(['maut',filter])
                   list
                   image={
                     typeof item._embedded["wp:featuredmedia"] === "undefined"
-                      ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png"
+                      ? "https://i.ibb.co/8jYYhnW/image-2021-10-11-T06-08-58-109-Z.png"
                       : item._embedded["wp:featuredmedia"]["0"].media_details
                           .sizes.thumbnail.source_url
                   }
@@ -990,9 +990,9 @@ console.log(['maut',filter])
                   block
                   image={
                     typeof item._embedded["wp:featuredmedia"] === "undefined"
-                      ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png"
+                      ? "https://i.ibb.co/8jYYhnW/image-2021-10-11-T06-08-58-109-Z.png"
                       : item._embedded["wp:featuredmedia"]["0"].media_details
-                          .sizes.thumbnail.source_url
+                          .sizes["rtcl-gallery"].source_url
                   }
                   title={item.title.rendered}
                   subtitle={item.subtitle}
@@ -1076,7 +1076,7 @@ console.log(['maut',filter])
                 small
                 image={
                   typeof item._embedded["wp:featuredmedia"] === "undefined"
-                    ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png"
+                    ? "https://i.ibb.co/8jYYhnW/image-2021-10-11-T06-08-58-109-Z.png"
                     : item._embedded["wp:featuredmedia"]["0"].media_details
                         .sizes.thumbnail.source_url
                 }

@@ -94,7 +94,7 @@ export default function Category({ navigation }) {
       case "icon":
         return (
           <CategoryIcon
-            icon={item.icon === '' ? Utils.iconConvert('question') :Utils.iconConvert(item.icon)}
+            icon={item.icon === '' ? Utils.iconConvert('question-thin') :Utils.iconConvert(item.icon)}
             // color={typeof item.color === undefine }
             title={item.cattitle}
             subtitle={item.count.toString()}

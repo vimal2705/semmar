@@ -56,7 +56,8 @@ export default function Profile({ navigation }) {
         <ScrollView>
           <View style={styles.contain}>
             <ProfileDetail
-              image={typeof user.image === 'undefined' ? 'https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png' :user.image}
+              image={typeof user.image === 'undefined' ? "https://i.ibb.co/RyjRVpD/Profile.png" :user.image}
+              // textFirst={user.name}
               textFirst={user.name}
               point={user.rate}
               textSecond={ user.description === "" ? 'This is a user description ' : user.description}

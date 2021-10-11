@@ -24,18 +24,20 @@ export default function PreviewImage({ navigation, route }) {
     setImages(
       images.map((item, index) => {
         if (index == indexSelected) {
-          return {
-            ...item,
-            selected: true,
-          };
+
+          console.log("sssd",...item);
+          return item
+            // selected: true,
+          ;
         } else {
-          return {
-            ...item,
-            selected: false,
-          };
+          console.log('ass',...item);
+          return item
+          
         }
       })
     );
+    console.log('image',indexSelected);
+    console.log(images);
     flatListRef.scrollToIndex({
       animated: true,
       index: indexSelected,
@@ -118,6 +120,7 @@ export default function PreviewImage({ navigation, route }) {
             renderItem={({ item, index }) => (
               <TouchableOpacity
                 onPress={() => {
+                 console.log(item);
                   onTouchImage(index);
                 }}
                 activeOpacity={0.9}

@@ -15,7 +15,7 @@ function* loadWishList(action) {
     }
     action.callback?.(response);
   } catch (error) {
-    console.log("loadWishList", error);
+    // console.log("loadWishList", error);
     action.callback?.(error.response ?? error.message);
   }
 }

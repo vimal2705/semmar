@@ -103,7 +103,7 @@ const  image = async (item)  => {
         const array = []
       setproductImage(imgarray[0].media_details.sizes.medium_large.source_url)
       for (let i = 0; i < imgarray.length; i++) {
-       console.log('EMDEB',imgarray[0].media_details.sizes.medium_large.source_url);
+      //  console.log('EMDEB',imgarray[0].media_details.sizes.medium_large.source_url);
         array.push(imgarray[i].media_details.sizes.medium_large.source_url)
       }
       setgallary(array)
@@ -643,7 +643,7 @@ const  image = async (item)  => {
           renderItem={({ item, index }) => (
             <ListItem
               grid
-              image={typeof  item._embedded['wp:featuredmedia'] === "undefined" ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png" :item._embedded['wp:featuredmedia']["0"].media_details.sizes.thumbnail.source_url}
+              image={typeof  item._embedded['wp:featuredmedia'] === "undefined" ? "https://i.ibb.co/8jYYhnW/image-2021-10-11-T06-08-58-109-Z.png" :item._embedded['wp:featuredmedia']["0"].media_details.sizes.thumbnail.source_url}
               title={item.title.rendered}
               // subtitle={item.title}
               location={item.address}
@@ -679,7 +679,7 @@ const  image = async (item)  => {
               <ListItem
                 key={item.id.toString()}
                 small
-                image={typeof  item._embedded['wp:featuredmedia'] === "undefined" ? "https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png" :item._embedded['wp:featuredmedia']["0"].media_details.sizes.thumbnail.source_url}
+                image={typeof  item._embedded['wp:featuredmedia'] === "undefined" ? "https://i.ibb.co/8jYYhnW/image-2021-10-11-T06-08-58-109-Z.png" :item._embedded['wp:featuredmedia']["0"].media_details.sizes.thumbnail.source_url}
                 title={item.title.rendered}
                 // subtitle={item.category?.title}
                 rate={item._rtcl_average_rating}

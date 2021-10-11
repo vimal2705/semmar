@@ -28,11 +28,11 @@ export default class ProductModel {
     this.description = json?.content.rendered;
     this.image =  json?._links['wp:attachment']['0'].href;
     this.feature = json?.featured;
-     this.priceMax = json?.price;
+     this.priceMax = json?.price;   
     this.link = json?.link;
     this.view = json?._views
 this.featured = json?.featured
- this.imagemedia = typeof json?._embedded["wp:featuredmedia"] === 'undefined'? 'https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png' : json?._embedded["wp:featuredmedia"]['0']["media_details"]["sizes"]["thumbnail"]["source_url"]
+ this.imagemedia = typeof json?._embedded["wp:featuredmedia"] === 'undefined'? 'undefined' : json?._embedded["wp:featuredmedia"]['0']["media_details"]["sizes"]["thumbnail"]["source_url"]
     // this.openTime = json?.opening_hour?.map?.((item) => {
     //   return new OpenTimeModel(item);
     // });

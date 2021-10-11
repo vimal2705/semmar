@@ -16,7 +16,7 @@ export const login = async ({ params }) => {
   );
   const array = log.data;
    
-  
+ var dataresponse = null
 
   console.log("asssas", array.cookie);
 
@@ -30,7 +30,7 @@ export const login = async ({ params }) => {
     bodyFormData.append("cookie", result);
   
   
-    axios({
+  await  axios({
       url: "http://semmsar.com/api/user/get_currentuserinfo/",
       method: 'POST',
       data: bodyFormData,
@@ -39,35 +39,37 @@ export const login = async ({ params }) => {
       .then(function (response) {
         console.log("response :", response.data);
         console.log('name: ', response.data.user.displayname)
-        
+        SyncStorage.set("response",  response.data);
         // setMsg(JSON.stringify( response.data.user))
-       const dataresponse = response.data.user
+     dataresponse = response.data.user
         console.log('data',dataresponse);
+     
       })
       .catch(function (error) {
         console.log("error from image :");
       })
 
-    return {
-      success: true,
-      data: {
-        username: array.user.displayname ,
-        nicename: array.user.nicename,
-        user_photo: array.avatar,
-        user_url: "",
-        user_level: "Developer",
-        description: array.user.description,
-        tag: "passionui",
-        rate: 5,
-        token: "token",
-        email: array.user.email,
-        value: [
-          { value: "97.01%", title: "feedback" },
-          { value: "999", title: "items" },
-          { value: "120k", title: "followers" },
-        ],
-      },
-    };
+
+      return {
+        success: true,
+        data: {
+          username: dataresponse.displayname ,
+          nicename: dataresponse.nicename,
+          user_photo: array.avatar,
+          user_url: "",
+          user_level: "Developer",
+          description: dataresponse.description,
+          tag: "passionui",
+          rate: 5,
+          token: "token",
+          email: dataresponse.email,
+          value: [
+            { value: "97.01%", title: "feedback" },
+            { value: "999", title: "items" },
+            { value: "120k", title: "followers" },
+          ],
+        },
+      };
   }
 
   return {

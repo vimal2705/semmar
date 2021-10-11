@@ -140,15 +140,17 @@ console.log('wish',wishlist.list);
             <ListItem
               small
               enableAction={true}
-               image={typeof item._embedded["wp:featuredmedia"] === 'undefined'? 'https://htmlcolorcodes.com/assets/images/colors/light-gray-color-solid-background-1920x1080.png' : item._embedded["wp:featuredmedia"]['0']["media_details"]["sizes"]["thumbnail"]["source_url"]}
-              title={item.title.rendered}
-              subtitle={typeof item._embedded["wp:term"]  === 'undefined'? '':item._embedded["wp:term"][0][0].name }
-              rate={item._rtcl_average_rating}
+               image={item.imagemedia === 'undefined' ? 'https://i.ibb.co/8jYYhnW/image-2021-10-11-T06-08-58-109-Z.png' : item.imagemedia }
+              title={item.title}
+              subtitle={typeof item.subtitle === 'undefined'? '' : item.subtitle }
+              rate={item.rate}
               style={{ marginBottom: 15 }}
               onPress={() =>
-                navigation.navigate("ProductDetail", {
-                  item: item,
-                })
+           { console.log('emdeb',item.imagemedia);
+                //  navigation.navigate("ProductDetail", {
+                //   item: item,
+                // })
+              }
               }
            
               omPressMore={() => {

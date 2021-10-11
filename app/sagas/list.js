@@ -22,7 +22,7 @@ function* loadList(action) {
     });
     action.callback?.(response);
   } catch (error) {
-    console.log("loadList", error);
+    // console.log("loadList", error);
     action.callback?.(error.response ?? error.message);
   }
 }

@@ -52,7 +52,7 @@ export default function ProfileEdit({ navigation }) {
    */
   const cookie = syncStorage.get('result')
 
-  const onUpdate = () => {
+  const onUpdate = async() => {
     console.log('asas',cookie);
 
     var bodyFormData = new FormData();
@@ -69,7 +69,7 @@ export default function ProfileEdit({ navigation }) {
       });
       return;
     }
-    axios({
+   await axios({
       url: `http://semmsar.com/api/user/xprofile_update/?cookie=${cookie}&username=${name}&display_name=${name}&insecure=cool`,
       method: 'POST',
       data: bodyFormData,
@@ -80,11 +80,18 @@ export default function ProfileEdit({ navigation }) {
         console.log("response :", response.data);
         
         
-       
+       if (response.data.status === 'error') {
         Alert.alert({
           title: t("edit_profile"),
           message:response.data.error,
         });
+       }
+       else{
+        Alert.alert({
+          title: t("edit_profile"),
+          message:response.data,
+        });
+      }
   
       setLoading(false);
       })

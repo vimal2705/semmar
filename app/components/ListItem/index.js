@@ -67,7 +67,7 @@ export default function ListItem(props) {
     return (
       <View style={style}>
         <TouchableOpacity onPress={onPress}>
-          <Image source={image} style={styles.blockImage} />
+          <Image source={{uri:image}} style={styles.blockImage} />
           <Tag status style={styles.tagStatus}>
             {t(status)}
           </Tag>
